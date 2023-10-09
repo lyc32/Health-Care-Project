@@ -36,7 +36,7 @@
 
     </div>
     <div class="row mt-4">
-        <div class="col-3 justify-content-center border" *ngFor="let doctor of currentDoctorList">
+        <div class="col-3 justify-content-center" *ngFor="let doctor of currentDoctorList">
             <div class="doctor-card">
                 <img src="{{doctor.photo}}" style="width:215px; height:215px">
                 <h3>{{ doctor.firstName + ' ' + doctor.lastName}}</h3>

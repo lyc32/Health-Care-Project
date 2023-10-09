@@ -136,35 +136,37 @@
             <form id="updatePhotoForm">
               <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
               <div class="row pt-4 pb-4">
-                <div class="col-sm-8">
-                  <div class="row pb-4 mt-5">
-                    <div class="col-sm-4 text-end">
+                <div class="col-sm-4 text-end">
+                  <img class="border mt-3" src="{{tmpPhoto}}" style="width:180px; height:180px">
+                </div>
+                <div class="col-sm-7 justify-content-start">
+                  <div class="row pb-4 mt-3">
+                    <div class="col-sm-3 text-end">
                       <label class="col-form-label">New Photo:</label>
                     </div>
                     <div class="col-sm-6">
                       <input type="text" class="form-control" name="photo" id="photo" value="{{user.photo}}" (change)="onchangePhoto()" required>
                     </div>
                   </div>
-                </div>
-                <div class="col-sm-3">
-                  <img class="border" src="{{tmpPhoto}}" style="width:180px; height:180px">
-                </div>
-              </div>
-              <div class="row pt-4 pb-4">
-                <div class="col-3 text-end">
-                  Birthday:
-                </div>
-                <div class="col-4">
-                  <input type="date" class="form-control" name="birthday" id="birthday" value="{{user.birthday}}" required>
-                </div>
-                <div class="col-2 text-end">
-                  Gender:
-                </div>
-                <div class="col-2">
-                  <select id="gender" class="form-control">
-                    <option value="male">male</option>
-                    <option value="female">female</option>
-                  </select>
+                  <div class="row pb-4 mt-2">
+                    <div class="col-3 text-end">
+                      <label class="col-form-label">Birthday:</label>
+                    </div>
+                    <div class="col-6">
+                      <input type="date" class="form-control" name="birthday" id="birthday" value="{{user.birthday}}" required>
+                    </div>
+                  </div>
+                  <div class="row pb-4 mt-2">
+                    <div class="col-3 text-end">
+                      Gender:
+                    </div>
+                    <div class="col-3">
+                      <select id="gender" class="form-control">
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>
@@ -194,11 +196,11 @@
                 <div class="card" *ngIf="m.read == 0">
                   <div class="card-title border-bottom bg-secondary-subtle py-0">
                     <div class="row">
-                      <div class="col-9 mb-0 ps-3 pb-0">
+                      <div class="col-11 mb-0 ps-3 pb-0">
                         <h6 class="text-secondary">{{'To: ' + m.toAccountName}}</h6>
                         <h6 class="text-secondary">{{'Title: ' + m.title}}</h6>
                       </div>
-                      <div class="col-3 justify-content-end text-end">
+                      <div class="col-1 justify-content-end text-end">
                         <button class="btn btn-outline-danger px-2 py-0" (click)="deleteMessage(m)">X</button>
                       </div>
                     </div>
@@ -211,23 +213,21 @@
               </div>
             </div>
           </div>
-          <div style="min-height:330px; overflow: auto" *ngIf="showSendMessageList==false">
+          <div style="height:330px; overflow: auto" *ngIf="showSendMessageList==false">
             <div class="row justify-content-end me-4 mt-3" *ngFor="let m of receiveMessageList">
               <div class="col-11">
                 <div class="card bg-light">
                   <div class="card-title border-bottom bg-secondary-subtle">
                     <div class="row">
-                      <div class="col-9 mb-0 pb-0">
+                      <div class="col-11 mb-0 pb-0">
                         <h5 class="mt-1 ms-4 text-secondary">{{ m.title}}</h5>
                       </div>
-                      <div class="col-3 justify-content-end text-end">
+                      <div class="col-1 justify-content-end text-end">
                         <button class="btn btn-outline-danger px-2 py-0" (click)="deleteMessage(m)">X</button>
                       </div>
                     </div>
                   </div>
-                  <div class="card-body bg-light" style="height:50px; overflow: auto">
-                    <p class="text-secondary">{{m.message}}</p>
-                  </div>
+                  <textarea class="form-control text-secondary border-0 mt-0 pt-0" style="height:80px; overflow: auto" readonly>{{m.message}}</textarea>
                   <div class="card-footer text-end bg-secondary-subtle py-1">
                     <div class="row">
                       <div class="col-8 text-start">

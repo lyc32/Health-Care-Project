@@ -18,7 +18,6 @@ export class MyAppointment implements OnInit{
 
   menus:Menus = new Menus();
   availableTime:number[] = [900, 1000, 1100, 1300, 1400, 1500, 1600];
-  times:number[] = [900, 1000, 1100, 1300, 1400, 1500, 1600];
   showSendMessage = false;
 
   currentDate:number = -1;
@@ -47,14 +46,7 @@ export class MyAppointment implements OnInit{
     }
     this.getAppointments();
   }
-  deleteAppointment(id : number)
-  {
-    this.appointmentService.deleteAppointment(id).subscribe(
-      data=>{
-        this.getAppointments();
-      }
-    )
-  }
+
   private getAppointments()
   {
     this.appointmentService.getAppointmentByPersonId(this.user.id).subscribe(
@@ -118,7 +110,6 @@ export class MyAppointment implements OnInit{
       this.currentAppointmentDateString = this.currentAppointmentDateString + day;
     }
     this.currentAppointmentDetails = JSON.parse( atob(appointment.details));
-    console.log(this.currentAppointmentDetails);
     this.getAvailableTime();
   }
 
@@ -139,6 +130,7 @@ export class MyAppointment implements OnInit{
                 newMessage.type = "message";
                 newMessage.title = "[System] #" + this.user.id + " Cancel Appointment"
                 newMessage.message = "Date:"+ appointment.date + "\nTime:" + appointment.time/100 + ":00";
+                newMessage.time = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes();
                 this.messageService.createMessage( this.user.id, appointment.doctorId, newMessage)
                     .subscribe(data=>
                         {
@@ -197,7 +189,6 @@ export class MyAppointment implements OnInit{
 
   getAvailableTime()
   {
-    console.log(this.checkDate);
     this.availableTime = [...this.menus.AVAIBLE_TIME];
     this.appointmentService.getAppointmentsByDoctorIDAndDate(this.currentAppointment.doctorId, parseInt(this.checkDate)).
     subscribe(data=>
@@ -208,13 +199,11 @@ export class MyAppointment implements OnInit{
         {
           if(data[j].time == this.availableTime[i])
           {
-            console.log("#" + data[j].time);
             this.availableTime.splice(i, 1);
             i--;
           }
         }
       }
-      console.log(this.availableTime);
     })
   }
 
@@ -227,10 +216,6 @@ export class MyAppointment implements OnInit{
     appointment.date = (document.getElementById("date") as HTMLInputElement).value.replaceAll("-", "");
     appointment.time = parseInt((document.getElementById("time") as HTMLSelectElement).value);
     appointment.details = btoa(JSON.stringify(newAppointmentDetail));
-    console.log(JSON.stringify(newAppointmentDetail));
-    console.log(btoa(JSON.stringify(newAppointmentDetail)));
-    console.log(appointment.details);
-
     this.appointmentService.updateAppointment(appointment.id,appointment).subscribe(data=>
     {
       if(data.id > 0)
@@ -244,6 +229,7 @@ export class MyAppointment implements OnInit{
         newMessage.type = "message";
         newMessage.title = "[System] #" + this.user.id + " Reschedule Appointment"
         newMessage.message = "Date:"+ appointment.date + "\nTime:" + appointment.time/100 + ":00\nLocation:" + newAppointmentDetail.location + "\nAdditional:["  + newAppointmentDetail.additional + "]";
+        newMessage.time = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes();
         this.messageService.createMessage( this.user.id, appointment.doctorId, newMessage)
             .subscribe(data=>
                 {

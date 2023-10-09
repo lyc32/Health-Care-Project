@@ -29,7 +29,8 @@ export class SearchCustomerComponent implements OnInit
   {
   }
 
-  search() {
+  search()
+  {
     let id       = (document.getElementById("id") as HTMLInputElement).value;
     let firstName= (document.getElementById("firstName") as HTMLInputElement).value;
     let lastName = (document.getElementById("lastName") as HTMLInputElement).value;

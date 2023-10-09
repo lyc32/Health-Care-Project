@@ -20,12 +20,16 @@ export class SearchAppointmentComponent implements OnInit
   currentAppointmentList: Appointment[] = [];
   currentAppointment:Appointment = new Appointment();
   currentAppointmentDetails:AppointmentDetails = new AppointmentDetails()
-  currentAppointmentDate:number = -1;
+
   currentDate:number = -1;
+  checkDate:string = '';
+  currentAppointmentDate:number = -1;
+  currentAppointmentDateString:string = '';
 
   showSendMessage:boolean = false;
 
   menus:Menus = new Menus();
+  availableTime:number[] = [900, 1000, 1100, 1300, 1400, 1500, 1600];
 
   ngOnInit()
   {
@@ -45,11 +49,11 @@ export class SearchAppointmentComponent implements OnInit
 
   search()
   {
-    let doctorName = (document.getElementById("doctorName"    ) as HTMLInputElement).value;
-    let personName = (document.getElementById("personName"    ) as HTMLInputElement).value;
-    let date       = (document.getElementById("date"          ) as HTMLInputElement).value;
-    let time:any   = (document.getElementById("time"          ) as HTMLInputElement).value;
-    let fee:any    = (document.getElementById("appointmentFee") as HTMLInputElement).value;
+    let doctorName = (document.getElementById("doctorName"     ) as HTMLInputElement).value;
+    let personName = (document.getElementById("personName"     ) as HTMLInputElement).value;
+    let date       = (document.getElementById("appointmentDate") as HTMLInputElement).value;
+    let time:any   = (document.getElementById("appointmentTime") as HTMLInputElement).value;
+    let fee:any    = (document.getElementById("appointmentFee" ) as HTMLInputElement).value;
 
     date = date.toString().replaceAll('-', '')
 
@@ -86,9 +90,32 @@ export class SearchAppointmentComponent implements OnInit
 
   showCurrentAppointment(appointment:Appointment)
   {
+    this.checkDate = appointment.date;
     this.currentAppointment = appointment;
+    this.currentAppointmentDate = parseInt(appointment.date);
+
+    let year = (this.currentAppointmentDate - this.currentAppointmentDate%10000)/10000;
+    let month = (this.currentAppointmentDate%10000 - this.currentAppointmentDate%100)/100;
+    let day = this.currentAppointmentDate%100;
+    if(month < 10)
+    {
+      this.currentAppointmentDateString = year + '-0' + month + '-'
+    }
+    else
+    {
+      this.currentAppointmentDateString = year + '-' + month + '-'
+    }
+    if(day < 10)
+    {
+      this.currentAppointmentDateString = this.currentAppointmentDateString + "0" + day;
+    }
+    else
+    {
+      this.currentAppointmentDateString = this.currentAppointmentDateString + day;
+    }
     this.currentAppointmentDetails = JSON.parse( atob(appointment.details));
-    this.currentAppointmentDate = parseInt(this.currentAppointment.date);
+    console.log(this.currentAppointmentDetails);
+    this.getAvailableTime();
   }
 
   showSendMessageView()
@@ -124,6 +151,36 @@ export class SearchAppointmentComponent implements OnInit
         )
   }
 
+  changeDate()
+  {
+
+    this.currentAppointmentDateString = (document.getElementById("date") as HTMLInputElement).value;
+    this.checkDate = this.currentAppointmentDateString.replaceAll("-", "");
+    this.getAvailableTime();
+    console.log("checkDate:" + this.checkDate)
+    console.log("checkDate:" + this.currentAppointment.date)
+  }
+
+  getAvailableTime()
+  {
+    this.availableTime = [...this.menus.AVAIBLE_TIME];
+    this.appointmentService.getAppointmentsByDoctorIDAndDate(this.currentAppointment.doctorId, parseInt(this.checkDate)).
+    subscribe(data=>
+    {
+      for(let i:number = 0 ; i < this.availableTime.length ; i++)
+      {
+        for(let j:number=0; j < data.length; j++)
+        {
+          if(data[j].time == this.availableTime[i])
+          {
+            this.availableTime.splice(i, 1);
+            i--;
+          }
+        }
+      }
+    })
+  }
+
   cancelAppointment(appointment:Appointment)
   {
     this.appointmentService.deleteAppointment(appointment.id)
@@ -139,8 +196,9 @@ export class SearchAppointmentComponent implements OnInit
                 newMessage.toAccountId = appointment.personId;
                 newMessage.toAccountName = appointment.person_name;
                 newMessage.type = "message";
-                newMessage.title = "[System] Doctor #" + this.user.id + " Cancel Appointment"
+                newMessage.title = "[System] Doctor #" + this.user.id + " " + appointment.doctor_name + " Cancel Appointment"
                 newMessage.message = "Date:"+ appointment.date + "\nTime:" + appointment.time/100 + ":00";
+                newMessage.time = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes();
                 this.messageService.createMessage( this.user.id, appointment.personId, newMessage)
                     .subscribe(data=>
                         {
@@ -181,9 +239,11 @@ export class SearchAppointmentComponent implements OnInit
         newMessage.toAccountId = appointment.personId;
         newMessage.toAccountName = appointment.person_name;
         newMessage.type = "message";
-        newMessage.title = "[System] #" + this.user.id + " Reschedule Appointment"
+        newMessage.title = "[System] Doctor #" + this.user.id + " " + appointment.doctor_name + " Reschedule Appointment"
         newMessage.message = "Date:"+ appointment.date + "\nTime:" + appointment.time/100 + ":00\nLocation:" + newAppointmentDetail.location + "\nAdditional:["  + newAppointmentDetail.additional + "]";
-        this.messageService.createMessage( this.user.id, appointment.doctorId, newMessage)
+        newMessage.time = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes();
+
+        this.messageService.createMessage( this.user.id, appointment.personId, newMessage)
             .subscribe(data=>
                 {
                   window.location.href = "message/updateAppointmentSuccessful";

@@ -28,10 +28,10 @@
         <input class="form-control" type="text" name="personName" id="personName">
       </div>
       <div class="col-sm-2">
-        <input class="form-control" type="date" name="date" id="date">
+        <input class="form-control" type="date" name="date" id="appointmentDate">
       </div>
       <div class="col-sm-2">
-        <input class="form-control" type="time" name="time" id="time">
+        <input class="form-control" type="time" name="time" id="appointmentTime">
       </div>
       <div class="col-sm-2">
         <input class="form-control" type="number" name="appointmentFee" id="appointmentFee">
@@ -108,7 +108,7 @@
               <label class="col-form-label">Date:</label>
             </div>
             <div class="col-sm-8">
-              <input class="form-control" value="{{currentAppointment.date}}" readonly>
+              <input class="form-control" id="date" type="date" value="{{currentAppointmentDateString}}" (change)="changeDate()">
             </div>
           </div>
           <div class="row pb-1">
@@ -116,8 +116,9 @@
               <label class="col-form-label">Time:</label>
             </div>
             <div class="col-sm-8">
-              <select id="time" class="form-control" [(ngModel)]="currentAppointment.time">
-                <option *ngFor="let e of menus.AVAIBLE_TIME" value="{{e}}">{{e/100 + ":00"}}</option>
+              <select id="time" class="form-control">
+                <option selected value="{{currentAppointment.time}}" *ngIf="currentAppointment.date == checkDate">{{currentAppointment.time/100 + ':00'}}</option>
+                <option *ngFor="let e of availableTime" value="{{e}}">{{e/100+ ":00"}}</option>
               </select>
             </div>
           </div>

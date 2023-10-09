@@ -12,6 +12,7 @@ import {DoctorDetail} from "../../model/doctor-detail";
 export class DoctorProfileComponent implements OnInit
 {
   doctor:Account = new Account();
+  age:number = -1;
   doctorDetail: DoctorDetail = new DoctorDetail();
 
   constructor(private router:ActivatedRoute, private accountService:AccountService)
@@ -26,12 +27,9 @@ export class DoctorProfileComponent implements OnInit
             data=>{
               this.doctor = data;
               this.doctorDetail = JSON.parse(atob(this.doctor.details));
+              this.age = new Date().getFullYear() - new Date(this.doctor.birthday).getFullYear();
             });
-
-    //(document.getElementById("introduce") as HTMLTextAreaElement).innerHTML = this.doctorDetail.introduce;
-
   }
-
   ngDoCheck()
   {
     const textArea = (document.getElementById("introduce") as HTMLTextAreaElement);
