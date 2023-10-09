@@ -1,0 +1,191 @@
+<div class="container mt-4 pt-4" style="min-height: 700px;" *ngIf="user.type=='DOCTOR' || user.type=='ADMIN'">
+  <div class="card text-center">
+    <div class="row justify-content-center m-1 border-bottom">
+      <div class="col-sm-2">
+        Doctor Name
+      </div>
+      <div class="col-sm-2">
+        Customer Name
+      </div>
+      <div class="col-sm-2">
+        Date
+      </div>
+      <div class="col-sm-2">
+        Time
+      </div>
+      <div class="col-sm-2">
+        Appointment Fee
+      </div>
+      <div class="col-sm-2">
+      </div>
+    </div>
+    <div class="row justify-content-center mt-1 ms-1 me-1">
+      <div class="col-sm-2">
+        <input class="form-control" type="text" name="doctorName" id="doctorName" *ngIf="user.type=='DOCTOR'" value="{{user.firstName + ' ' + user.lastName}}" readonly>
+        <input class="form-control" type="text" name="doctorName" id="doctorName" *ngIf="user.type=='ADMIN'">
+      </div>
+      <div class="col-sm-2">
+        <input class="form-control" type="text" name="personName" id="personName">
+      </div>
+      <div class="col-sm-2">
+        <input class="form-control" type="date" name="date" id="date">
+      </div>
+      <div class="col-sm-2">
+        <input class="form-control" type="time" name="time" id="time">
+      </div>
+      <div class="col-sm-2">
+        <input class="form-control" type="number" name="appointmentFee" id="appointmentFee">
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary mb-3 btn-lg py-1 ms-4" (click)="search()">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2" >
+    <div class="col-sm-8">
+      <div class="card text-center" style="min-height:500px; overflow: auto">
+        <table class="table table-sm" >
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Doctor Name</th>
+              <th scope="col">Customer Name</th>
+              <th scope="col">Date</th>
+              <th scope="col">Time</th>
+              <th scope="col">Fee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appointment of currentAppointmentList">
+              <td>
+                {{appointment.id}}
+              </td>
+              <td>
+                {{appointment.doctor_name}}
+              </td>
+              <td>
+                {{appointment.person_name}}
+              </td>
+              <td>
+                {{appointment.date}}
+              </td>
+              <td>
+                {{appointment.time/100 + ":00"}}
+              </td>
+              <td>
+                {{'$' + appointment.fee}}
+              </td>
+              <td>
+                <button class="btn btn-primary" (click)="showCurrentAppointment(appointment)"> -> </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="H2 text-secondary" *ngIf="currentAppointmentList.length==0">No record</div>
+      </div>
+    </div>
+
+
+    <div class="col-sm-4">
+      <div class="card text-center" style="min-height:500px">
+        <div *ngIf="currentAppointment.id > 0 && showSendMessage == false">
+          <div class="row mt-1 justify-content-end" >
+            <div class="col-2">
+              <button class="btn btn-primary py-1" (click)="showSendMessageView()"><i class="bi bi-envelope"></i></button>
+            </div>
+          </div>
+          <div class="row pb-1 pt-1">
+            <div class="col-sm-3 text-end ms-1">
+              <label class="col-form-label">Name:</label>
+            </div>
+            <div class="col-sm-8">
+              <input class="form-control" value="{{currentAppointment.person_name}}" readonly>
+            </div>
+          </div>
+          <div class="row pb-1">
+            <div class="col-sm-3 text-end ms-1">
+              <label class="col-form-label">Date:</label>
+            </div>
+            <div class="col-sm-8">
+              <input class="form-control" value="{{currentAppointment.date}}" readonly>
+            </div>
+          </div>
+          <div class="row pb-1">
+            <div class="col-sm-3 text-end ms-1">
+              <label class="col-form-label">Time:</label>
+            </div>
+            <div class="col-sm-8">
+              <select id="time" class="form-control" [(ngModel)]="currentAppointment.time">
+                <option *ngFor="let e of menus.AVAIBLE_TIME" value="{{e}}">{{e/100 + ":00"}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row pb-1">
+            <div class="col-sm-3 text-end ms-1">
+              <label class="col-form-label">Location:</label>
+            </div>
+            <div class="col-sm-8">
+              <select id="location" class="form-control" [(ngModel)]="currentAppointmentDetails.location">
+                <option *ngFor="let e of menus.LOCATION" value="{{e}}">{{e}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row pb-1">
+            <div class="col-sm-3 text-end ms-1">
+              <label class="col-form-label">Department:</label>
+            </div>
+            <div class="col-sm-8">
+              <input class="form-control" value="{{currentAppointmentDetails.department}}"  readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 text-end ms-1">
+              <label class="col-form-label">Additional:</label>
+            </div>
+            <div class="col-sm-8">
+              <textarea class="form-control" class="form-control" id="additional" name="additional" style="min-height:200px" readonly>{{currentAppointmentDetails.additional}}</textarea>
+            </div>
+          </div>
+          <div class="row pb-1 pt-1 justify-content-end">
+            <div class="col-sm-8">
+              <button class="btn btn-primary me-2" *ngIf="currentAppointmentDate > currentDate" (click) = "cancelAppointment(currentAppointment)">Cancel</button>
+              <button class="btn btn-primary"      *ngIf="currentAppointmentDate > currentDate" (click) = "updateAppointment(currentAppointment)">Update</button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="currentAppointment.id > 0 && showSendMessage == true">
+          <div class="row mt-1 justify-content-start" >
+            <div class="col-2">
+              <button class="btn btn-primary py-1" (click)="showAppointmentView()"><-</button>
+            </div>
+          </div>
+          <div class="row pb-1 pt-3">
+            <div class="col-sm-3 text-end ms-1">
+              <label class="col-form-label">Title:</label>
+            </div>
+            <div class="col-sm-8">
+              <input class="form-control" id="title">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 text-end ms-1">
+              <label class="col-form-label">Message:</label>
+            </div>
+            <div class="col-sm-8">
+              <textarea class="form-control" class="form-control" id="message" name="message" style="min-height:300px"></textarea>
+            </div>
+          </div>
+          <div class="row m-1">
+            <div class="col-sm-12 text-end justify-content-end">
+              <button class="btn btn-primary me-3" (click)="sendMessage()">Send Message</button>
+            </div>
+          </div>
+
+        </div>
+        <h6 class="text-secondary m-4" *ngIf="currentAppointment.id < 0">No Data</h6>
+
+      </div>
+    </div>
+  </div>
+</div>

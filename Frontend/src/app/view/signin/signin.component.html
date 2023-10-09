@@ -1,0 +1,55 @@
+<div class="container mt-4 mb-4" style="min-height: 700px;">
+  <div class="row justify-content-center">
+    <div class="card" style="max-width: 600px;">
+      <div class="row g-0">
+        <div class="card-body">
+          <h3 class="card-title text-center border-bottom  pb-4">Sign In</h3>
+          <div id="errorMessage">
+          </div>
+          <form id="signInForm" class="row">
+            <p class="card-text pt-0">
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="firstName" class="col-form-label">First Name:</label>
+                <input type="text" class="form-control" name="firstName" id="firstName" required>
+              </div>
+              <div class="col-sm-6">
+                <label for="lastName" class="col-form-label">Last Name:</label>
+                <input type="text" class="form-control" name="lastName" id="lastName" required>
+              </div>
+            </div>
+            <p class="card-text">
+            <div class="row">
+              <div class="col-sm-12">
+                <label for="phone" class="col-form-label">Phone:</label>
+                <input type="text" class="form-control" name="phone" id="phone" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <label for="email" class="col-form-label">E-mail:</label>
+                <input type="email" class="form-control" name="email" id="email" required>
+              </div>
+            </div>
+            <p class="card-text">
+            <div class="row">
+              <div class="col-sm-12">
+                <label for="password" class="col-form-label">Password:</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+              </div>
+              <div class="col-sm-12">
+                <label for="confirm" class="col-form-label">Confirm Password:</label>
+                <input type="password" class="form-control" name="confirm" id="confirm" required>
+              </div>
+            </div>
+          </form>
+          <p class="card-text pb-2">
+          <div class="col-auto border-top mt-4 pt-4 text-center">
+            <button class="btn btn-primary mb-3 btn-lg py-1 ms-4" style="width: 100px" (click)="signIn()">submit</button>
+            <button class="btn btn-primary mb-3 btn-lg py-1 ms-4" style="width: 100px" (click)="reset()" >reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

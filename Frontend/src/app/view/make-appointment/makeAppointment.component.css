@@ -1,0 +1,123 @@
+* {box-sizing:border-box;}
+ul {list-style-type: none;}
+body {font-family: Verdana,sans-serif;}
+
+.month {
+  background: #1abcFF;
+  border-radius:5px;
+}
+
+.month ul {
+  margin: 0;
+  padding: 0;
+}
+
+.month ul li {
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.month .prev {
+  float: left;
+  padding-top: 10px;
+}
+
+.month .next {
+  float: right;
+  padding-top: 10px;
+}
+
+.weekdays {
+  background-color: #ddd;
+}
+
+.weekdays li {
+  display: inline-block;
+  width: 13.6%;
+  color: #666;
+  text-align: center;
+}
+
+.days {
+  padding: 0px 0;
+  background: #eee;
+  margin-top: -16px;
+  margin-bottom: 0px;
+}
+
+.days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size:12px;
+  color: #777;
+}
+
+.days li .active {
+  padding: 5px;
+  background: #1abcFF;
+  color: white !important
+}
+
+@media screen and (max-width:720px) {
+  .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+  .weekdays li, .days li {width: 12.5%;}
+  .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+  .weekdays li, .days li {width: 12.2%;}
+}
+
+.a{
+  text-decoration: none;
+}
+
+
+.doctor-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 300px;
+  height: 380px;
+  padding: 16px;
+  margin: 16px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background-color: white;
+}
+
+.doctor-card img {
+  max-width: 80%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.doctor-card h3 {
+  font-size: 24px;
+  margin-top: 16px;
+}
+
+.doctor-card p {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.doctor-card button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.doctor-card button:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,61 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="card">
+            <div class="row text-center">
+                <div class="col-1">#ID</div>
+                <div class="col-1">First Name</div>
+                <div class="col-1">Last Name</div>
+                <div class="col-1">Birthday</div>
+                <div class="col-1">Gender</div>
+                <div class="col-2">Email</div>
+                <div class="col-2">Phone</div>
+                <div class="col-3">department</div>
+            </div>
+            <div class="row pb-1">
+                <div class="col-1"><input class="form-control" type="number" [(ngModel)]="filterAccount.id"        (change)="filter()"></div>
+                <div class="col-1"><input class="form-control" type="text"   [(ngModel)]="filterAccount.firstName" (change)="filter()"></div>
+                <div class="col-1"><input class="form-control" type="text"   [(ngModel)]="filterAccount.lastName"  (change)="filter()"></div>
+                <div class="col-1"><input class="form-control" type="date"   [(ngModel)]="filterAccount.birthday"  (change)="filter()"></div>
+                <div class="col-1">
+                    <select class="form-control" [(ngModel)]="filterAccount.gender" (change)="filter()">
+                        <option value=""></option>
+                        <option value="male"  >Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="col-2"><input class="form-control" type="email"  [(ngModel)]="filterAccount.emailId"   (change)="filter()"></div>
+                <div class="col-2"><input class="form-control" type="text"   [(ngModel)]="filterAccount.phone"     (change)="filter()"></div>
+                <div class="col-3">
+                    <select id="department" class="form-control" [(ngModel)]="filterAccount.subtype" (change)="filter()">
+                        <option value=""></option>
+                        <option *ngFor="let e of menus.DOCTOR_TYPE" value="{{e}}">{{e}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row mt-4">
+        <div class="col-3 justify-content-center border" *ngFor="let doctor of currentDoctorList">
+            <div class="doctor-card">
+                <img src="{{doctor.photo}}" style="width:215px; height:215px">
+                <h3>{{ doctor.firstName + ' ' + doctor.lastName}}</h3>
+                <p>Phone: {{ doctor.phone }}</p>
+                <p>E-mail: {{ doctor.emailId }}</p>
+                <div class="justify-content-center mt-3 mb-4" *ngIf="doctor.id != preDeleteId">
+                    <button class="btn btn-primary me-2" (click)="seeDoctorProfile(doctor)" >Detail</button>
+                    <button class="btn btn-danger" (click)="showDelete(doctor.id)" >Delete</button>
+                </div>
+                <div class="justify-content-center mt-1 mb-1" *ngIf="doctor.id == preDeleteId">
+                    <label>Do You want to Delete This Doctor?</label>
+                    <button class="btn btn-primary me-4" (click)="closeDelete()">No</button>
+                    <button class="btn btn-danger ms-4" (click)="delete(doctor.id)">Yes</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+

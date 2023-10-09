@@ -1,0 +1,115 @@
+<div class="container-fluid mt-4 pt-4" style="min-height: 700px;" *ngIf="user.type=='ADMIN'">
+  <div class="card text-center">
+    <div class="row justify-content-center m-1 border-bottom">
+      <div class="col-sm-1">
+        ID
+      </div>
+      <div class="col-sm-1">
+        First Name
+      </div>
+      <div class="col-sm-1">
+        Last Name
+      </div>
+      <div class="col-sm-2">
+        Email
+      </div>
+      <div class="col-sm-2">
+        Phone
+      </div>
+      <div class="col-sm-2">
+        Birthday
+      </div>
+      <div class="col-sm-1">
+        Age
+      </div>
+      <div class="col-sm-1">
+        Gender
+      </div>
+      <div class="col-sm-1">
+      </div>
+    </div>
+    <div class="row justify-content-center mt-1">
+      <div class="col-sm-1 ps-4">
+        <input class="form-control" type="text" name="id" id="id">
+      </div>
+      <div class="col-sm-1">
+        <input class="form-control" type="text" name="firstName" id="firstName">
+      </div>
+      <div class="col-sm-1">
+        <input class="form-control" type="text" name="lastName" id="lastName">
+      </div>
+      <div class="col-sm-2">
+        <input class="form-control" type="email" name="emailId" id="emailId">
+      </div>
+      <div class="col-sm-2">
+        <input class="form-control" type="number" name="phone" id="phone">
+      </div>
+      <div class="col-sm-2">
+        <input class="form-control" type="date" name="birthday" id="birthday">
+      </div>
+      <div class="col-sm-1">
+        <input class="form-control" type="number" name="age" id="age">
+      </div>
+      <div class="col-sm-1">
+        <input class="form-control" type="text" name="gender" id="gender">
+      </div>
+      <div class="col-sm-1">
+        <button class="btn btn-primary mb-3 btn-lg py-1 ms-4" (click)="search()">Go</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2" >
+    <div class="col-sm-8">
+      <div class="card text-center" style="min-height:500px">
+        <table class="table table-sm" >
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Birthday</th>
+            <th scope="col">Age</th>
+            <th scope="col">gender</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let account of currentAccountList">
+            <td>
+              {{account .id}}
+            </td>
+            <td>
+              {{account.firstName + " " + account.lastName}}
+            </td>
+            <td>
+              {{account.emailId}}
+            </td>
+            <td>
+              {{account.phone}}
+            </td>
+            <td>
+              {{account.birthday}}
+            </td>
+            <td>
+              {{account.birthday}}
+            </td>
+            <td>
+              {{account.gender}}
+            </td>
+            <td>
+              <button class="btn btn-primary"> -> </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="H2 text-secondary" *ngIf="currentAccountList.length==0">No record</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card text-center" style="min-height:400px">
+        Customer history Case
+      </div>
+    </div>
+  </div>
+</div>

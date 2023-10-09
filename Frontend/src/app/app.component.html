@@ -1,0 +1,109 @@
+<title>{{title}}</title>
+<div class="header bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="home"><img src="/assets/images/homeLogo.png" style="height:80px;width:180px"></a>
+      <div class="collapse navbar-collapse" *ngIf="user.id != -1">
+        <ul class="navbar-nav" *ngIf="user.type == 'PERSON'">
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="customer/myAppointment"><h5>My Appointments</h5></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="customer/makeAppointment"><h5>Make Appointments</h5></a>
+          </li>
+        </ul>
+        <ul class="navbar-nav" *ngIf="user.type == 'DOCTOR'">
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="doctor/appointment/today"><h5>Dashboard</h5></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="doctor/search/appointment"><h5>Appointments</h5></a>
+          </li>
+        </ul>
+        <ul class="navbar-nav" *ngIf="user.type == 'ADMIN'">
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="admin/dashboard"><h5>Dashboard</h5></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="admin/doctorList"><h5>Doctors</h5></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="admin/search/customer"><h5>Customers</h5></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="admin/search/appointment"><h5>Appointments</h5></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav" *ngIf="user.id == -1">
+          <li class="nav-item dropdown text-center" style = "min-width:160px">
+            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">LogIn</a>
+            <ul class="dropdown-menu dropdown-menu-end text-center bg-body-tertiary">
+              <li><a class="dropdown-item" href="/logIn">Log in</a></li>
+              <li><a class="dropdown-item" href="/signIn">Sign In</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav" *ngIf="user.id != -1">
+          <li class="nav-item dropdown text-center" style = "min-width:160px">
+            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">{{user.firstName + ' ' + user.lastName}}</a>
+            <ul class="dropdown-menu dropdown-menu-end text-center bg-body-tertiary">
+              <li><a class="dropdown-item" href="myAccount/info">My Account</a></li>
+              <li><a class="dropdown-item" href="myAccount/message">Message({{msgNumber}})</a></li>
+              <li><a class="dropdown-item" (click)="logOut()">Log Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div style="min-height: 500px">
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="bg-light py-4 mt-5">
+  <div class="container">
+    <div class="row">
+      <!-- About Section -->
+      <div class="col-md-4">
+        <h5>About Medical Help</h5>
+        <p>Providing top-tier medical care and support for our community for over 20 years. Your health is our utmost priority.</p>
+      </div>
+
+      <!-- Quick Links Section -->
+      <div class="col-md-4">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-decoration-none">History</a></li>
+          <li><a href="#" class="text-decoration-none">About</a></li>
+          <li><a href="#" class="text-decoration-none">Customer Support</a></li>
+          <li><a href="#" class="text-decoration-none">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="col-md-4">
+        <h5>Contact Us</h5>
+        <p>
+          <strong>Address:</strong> 123 Medical St., Health City, 12345<br>
+          <strong>Phone:</strong> (123) 456-7890<br>
+          <strong>Email:</strong> support@medicalhelp.com
+        </p>
+      </div>
+    </div>
+
+    <!-- Copyright Section -->
+    <div class="row mt-4">
+      <div class="col-12 text-center">
+        <p class="mb-0">© 2023 Medical Help. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+

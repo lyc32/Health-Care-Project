@@ -1,0 +1,197 @@
+<div class="row justify-content-center mt-5 m-1">
+  <div class="col-sm-4" >
+    <div class="card">
+      <h3 class="card-title text-center pt-3">Step1: Choose Your Location</h3>
+      <hr class="text-secondary">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="row pb-4">
+            <div class="col-sm-4 text-end">
+              <label class="col-form-label">Location:</label>
+            </div>
+            <div class="col-sm-6">
+              <select id="location" class="form-control" [(ngModel)]="appointmentDetails.location">
+                <option *ngFor="let e of menus.LOCATION" value="{{e}}">{{e}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row pb-4">
+            <div class="col-sm-4 text-end">
+              <label class="col-form-label">Department:</label>
+            </div>
+            <div class="col-sm-6">
+              <select id="department" class="form-control" [(ngModel)]="appointmentDetails.department">
+                <option *ngFor="let e of menus.DOCTOR_TYPE" value="{{e}}">{{e}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 text-end">
+              <label class="col-form-label">Additional:</label>
+            </div>
+            <div class="col-sm-6">
+              <textarea class="form-control" id="additional" name="additional"  style="min-height: 315px" [(ngModel)]="appointmentDetails.additional"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-4">
+        <div class="col-sm-11 text-end">
+          <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="toStep2()">Next-></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4" *ngIf="state >= 1">
+    <div class="card"  style="min-height: 600px">
+      <h3 class="card-title text-center pt-3">Step2: Choose Your Doctor</h3>
+      <hr class="text-secondary">
+      <div class="row g-3">
+        <div>
+          <div class="d-flex justify-content-center"  style="overflow:auto">
+            <div class="doctor-card" style="min-width: 300px" *ngFor="let doctor of doctorList" (click)="chooseDoctor(doctor)">
+              <img src="{{doctor.photo}}" style="width:215px; height:215px">
+              <h3>{{ doctor.firstName + ' ' + doctor.lastName}}</h3>
+              <p>Phone: {{ doctor.phone }}</p>
+              <p>E-mail: {{ doctor.emailId }}</p>
+              <button (click)="seeDoctorProfile(doctor)" >See Detail</button>
+            </div>
+          </div>
+          <div class="col-sm-12 text-center" *ngIf="appointment.doctor_name!=''">
+            <h6>You Choose: Dr.{{appointment.doctor_name}}</h6>
+          </div>
+          <div class="col-sm-12 text-center" *ngIf="appointment.doctor_name==''" id="selectDoctorError">
+            <h6>Please Choose Your Doctor</h6>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-4">
+        <div class="col-sm-11 text-end">
+          <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="toStep3()">Next-></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4" *ngIf="state >= 2">
+    <div class="card" >
+      <h3 class="card-title text-center pt-3">Step3: Scheduling Appointment</h3>
+      <hr class="text-secondary">
+      <div class="row g-3" style="min-height: 455px">
+        <div class="col-sm-12">
+          <div class="row pb-1">
+            <div class="card-title ps-5 pe-5">
+              <div class="month">
+                <ul>
+                  <li class="prev">
+                    <a class="a text-white" (click)="prevMouth()">❮</a>
+                  </li>
+                  <li class="next">
+                    <a class="a text-white" (click)="nextMouth()">❯</a>
+                  </li>
+                  <li style="text-align:center">{{mouth}}<br>
+                    <span style="font-size:18px">{{year}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body">
+              <ul class="weekdays">
+                <li>Su</li>
+                <li>Mo</li>
+                <li>Tu</li>
+                <li>We</li>
+                <li>Th</li>
+                <li>Fr</li>
+                <li>Sa</li>
+              </ul>
+              <ul class="days" >
+                <li *ngFor="let i of emptyDays" >
+                  <span>{{i}}</span>
+                </li>
+                <li *ngFor="let i of days" >
+                  <span *ngIf="i == date" class="active">{{i}}</span>
+                  <span *ngIf="i != date" >
+                <a class="a text-secondary" (click)="setDate(i)">{{i}}</a>
+              </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row text-center">
+            <h5>Available Time</h5>
+            <div class="mt-1 mb-1" *ngIf="availableTime.length==0">
+              <h6 class="text-secondary">No time available, please select another date or doctor.</h6>
+            </div>
+            <div class="mt-1 mb-1">
+              <button class="btn btn-primary m-1 px-1" *ngFor="let time of availableTime" (click)="chooseTime(time)">{{time/100 + ':00'}}</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 text-center" *ngIf="appointment.time!=-1">
+          <h6>You Choose{{ year + "/" + mouthIndex + "/" + date + " " + appointment.time/100 + ":00"}}</h6>
+        </div>
+      </div>
+      <div class="row pt-4">
+        <div class="col-sm-11 text-end">
+          <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="submit()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of nav bar
+<div id="slogan">
+    <div class="container" id="box">
+		<div class="row justify-content-center">
+			<h3 class="text-center">Scheduling Appointment</h3><hr>
+            <h5>Location</h5>
+            <select id="selectedPlaceId" class="form-control w-50" style="color: rgb(85, 85, 85);" tabindex="-1" aria-hidden="true" [(ngModel)]="appointment.location">
+                <option value="1">San Diego Hospital(Misson Rd)</option>
+                <option value="2">San Marcos Hospital(LosPosas Rd)</option>
+                <option value="3">Los Angeles Hospital(5th Ave)</option>
+                <option value="4">San Francisco Hospital(Sanata Rd)</option>
+            </select>
+            <h5>Department</h5>
+            <select id="selectedDepartmentId" class="form-control w-50" style="color: rgb(85, 85, 85);" tabindex="-1" aria-hidden="true" [(ngModel)]="selectedDepartmentId" (change)="onDepartmentChange()">
+                <option selected></option>
+                <option value="1">Emergency Department (ED)</option>
+                <option value="2">Pediatrics Department(Children and Infant)</option>
+                <option value="3">Cardiology Department</option>
+                <option value="4">Orthopedics Department(Joints, bones, muscle)</option>
+                <option value="5">Obstetrics and Gynecology (OB/GYN) Department</option>
+                <option value="6">Neurology Department</option>
+                <option value="7">Oncology Department</option>
+                <option value="8">General Medicine Department</option>
+            </select>
+            <h5>Doctor</h5>
+            <select id="selectedDoctorId" class="form-control w-50" style="color: rgb(85, 85, 85);" tabindex="-1" aria-hidden="true" [(ngModel)]="selectedDoctorId" (change)="onDoctorChange()">
+                <option *ngFor="let doctor of doctors" [value]="doctor">{{ doctor }}</option>
+            </select>
+            <h5>Available Date</h5>
+            <app-calendar></app-calendar>
+            <h5 *ngIf="calendar.getChooseDay() != 0">Avaible Time</h5>
+            <div id="time-slot" class="mt-3 mb-4" *ngIf="calendar.getChooseDay() != 0">
+                <span id="time-item"[ngClass]="{
+                    'selected': calendar.getChoosenTime() === 900,
+                    'disabled': calendar.isDisabledTime(900)
+                  }" (click)="calendar.setChoosenTime(900)">9:00</span>
+                <span id="time-item" (click)="calendar.setChoosenTime(1000)">10:00</span>
+                <span id="time-item" (click)="calendar.setChoosenTime(1100)">11:00</span>
+                <span id="time-item" (click)="calendar.setChoosenTime(1300)">13:00</span>
+                <span id="time-item" (click)="calendar.setChoosenTime(1400)">14:00</span>
+                <span id="time-item" (click)="calendar.setChoosenTime(1500)">15:00</span>
+                <span id="time-item" (click)="calendar.setChoosenTime(1600)">16:00</span>
+            </div>
+            <h5 *ngIf="calendar.getChoosenTime() != 0">Note</h5>
+            <form>
+                <input type="text" [(ngModel)]="appointment.description" name="name">
+            </form>
+            <button *ngIf="calendar.getChoosenTime() != 0" type="button" class="btn btn-primary pt-05" (click)="createAppoinment()">Next</button>
+		</div>
+	</div>
+    <div id="image">
+        <img src="https://slidescorner.com/wp-content/uploads/2023/02/01-Medical-Background-HD-Light-Blue-Hexagons-by-SlidesCorner.com_-1.jpg" alt="background">
+     </div>
+</div>
+
+<div class="footer-wrapper">-->

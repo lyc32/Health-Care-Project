@@ -1,0 +1,149 @@
+<div class="container mt-4 mb-4" style="min-height: 700px;" *ngIf="user.type=='DOCTOR'">
+  <div class="row">
+    <div class="col-sm-3">
+
+      <div class="card outer-container justify-content-center">
+        <div class="inner-container">
+          <div class="clock-center"></div>
+          <div class="time-container text-secondary">{{currentTime|date:'hh:mm:ss'}}</div>
+          <div class="scale  left-scale"></div>
+          <div class="scale  top-scale"></div>
+          <div class="scale  right-scale"></div>
+          <div class="scale  bottom-scale"></div>
+          <div class="hour-scale one-scale"></div>
+          <div class="hour-scale two-scale"></div>
+          <div class="hour-scale four-scale"></div>
+          <div class="hour-scale five-scale"></div>
+          <div class="hour-scale seven-scale"></div>
+          <div class="hour-scale eight-scale"></div>
+          <div class="hour-scale ten-scale"></div>
+          <div class="hour-scale eleven-scale"></div>
+          <div class="pointer hour-pointer"></div>
+          <div class="pointer minute-pointer"></div>
+          <div class="pointer second-pointer"></div>
+        </div>
+      </div>
+      <br>
+
+      <div class="card">
+        <div class="card-title">
+          <div class="month">
+            <ul>
+              <li class="prev">
+                <a class="a text-white" href="{{prev}}">❮</a>
+              </li>
+              <li class="next">
+                <a class="a text-white" href="{{next}}">❯</a>
+              </li>
+              <li style="text-align:center">{{mouth}}<br>
+                <span style="font-size:18px">{{year}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <ul class="weekdays">
+          <li>Su</li>
+          <li>Mo</li>
+          <li>Tu</li>
+          <li>We</li>
+          <li>Th</li>
+          <li>Fr</li>
+          <li>Sa</li>
+        </ul>
+        <ul class="days" >
+          <li *ngFor="let i of emptyDays" >
+            <span>{{i}}</span>
+          </li>
+          <li *ngFor="let i of days" >
+              <span *ngIf="i == date" class="active">{{i}}</span>
+              <span *ngIf="i != date" >
+                <a class="a text-secondary" href="/doctor/appointment/{{year*10000+mouthIndex*100+i}}">{{i}}</a>
+              </span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="col-sm-4" >
+      <div class="card" style="max-width: 600px;" style="min-height: 650px">
+        <div class="row g-0" *ngFor="let appointment of appointmentList">
+          <div class="card-body mt-3">
+            <div class="row" (click)="showAppointmentDetail(appointment)">
+
+              <div class="h4 bg-light text-secondary border-dark text-center"  *ngIf="appointment.time == 1200">
+                Lunch Break
+              </div>
+              <div class="row border-bottom" *ngIf="appointment.time != 1200">
+                <div class="col-1 circle_red m-1"    *ngIf="(appointment.time == currentHours*100) && (currentDate == searchDate)"></div>
+                <div class="col-1 circle_yellow m-1" *ngIf="(appointment.time  > currentHours*100 && currentDate == searchDate)  || (currentDate < searchDate)"></div>
+                <div class="col-1 circle_green m-1"  *ngIf="(appointment.time  < currentHours*100 && currentDate == searchDate) || (currentDate > searchDate)"></div>
+
+                <span class="col-4 h5 text-secondary" *ngIf="appointment.time < 1200" >{{appointment.time / 100 + ":00 am "}}</span>
+                <span class="col-4 h5 text-secondary"*ngIf="appointment.time > 1200" >{{(appointment.time / 100 - 12) + ":00 pm "}}</span>
+                <span class="col-6 h5 text-secondary" *ngIf="appointment.id > 0" >{{appointment.person_name}}</span>
+                <span class="col-6 h5 text-secondary" *ngIf="appointment.id < 0" ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-5">
+      <div class="card" style="min-height: 165px">
+        <h6 class="text-secondary m-4" *ngIf="currentAppointment.id==-1">There Is No Appointment At This Time Period</h6>
+        <div *ngIf="currentAppointment.id!=-1">
+          <div class="row m-2">
+            <div class="col-3">
+              <img src="{{customer.photo}}" style="width:100px; height:100px">
+              <div class="row g-3 text-center">
+                <div class="text-center text-primary">{{currentAppointment.person_name}}</div>
+              </div>
+            </div>
+            <div class="col-9">
+              <label>Location:</label>
+              <div class="row justify-content-end">
+                <div class="col-11 text-start text-primary border-bottom">{{currentAppointmentDetails.location}}</div>
+              </div>
+              <label>Department:</label>
+              <div class="row justify-content-end">
+                <div class=" col-11 text-start text-primary border-bottom">{{currentAppointmentDetails.department}}</div>
+              </div>
+              <label>Date & Time:</label>
+              <div class="row justify-content-end">
+                <div class=" col-11 text-start text-primary border-bottom">{{year + "/" + mouthIndex + "/" + date + "--" + currentAppointment.time / 100 + ":00"}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-4" style="min-height: 450px">
+        <div class="m-2" *ngIf="currentAppointment.id!=-1">
+          <label>History Case</label>
+          <hr>
+          <div *ngIf="customerDetails.length==0">
+            <h4 class="text-secondary">No Data</h4>
+          </div>
+          <div class="row" *ngFor="let detail of customerDetails">
+            <label>{{detail.date + " "+ detail.time/100 + ":00"}}</label>
+            <div class = "row m-0">
+              <textarea class="form-control">{{detail.case}}</textarea>
+            </div>
+          </div>
+          <div *ngIf="currentDate == searchDate">
+            <hr>
+            <textarea class="form-control" id="newCase">
+            </textarea>
+            <div class="row justify-content-center m-2">
+              <button class="btn btn-primary px-2" (click)="addNewCase()">Add New Case</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

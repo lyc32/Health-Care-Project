@@ -1,0 +1,97 @@
+<div class="row mt-4 justify-content-center">
+    <div class="row">
+        <div class="col-4">
+            <div class="card ps-0 pe-0">
+                <div class="row">
+                    <div class="col-4">
+                        <img class="border m-2 mt-3" src="{{doctor.photo}}" style="width:140px; height:140px">
+                    </div>
+                    <div class="col-8">
+                        <div class="row me-1" style="height:2em">
+                            <div class="col-sm-4 text-end">
+                                <label class="col-form-label">Name:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="col-form-label"><h5>{{doctor.firstName + ' ' + doctor.lastName}}</h5></label>
+                            </div>
+                        </div>
+                        <div class="row" style="height:2em">
+                            <div class="col-sm-4 text-end">
+                                <label class="col-form-label">Gender:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="col-form-label"><h5>{{doctor.gender}}</h5></label>
+                            </div>
+                        </div>
+                        <div class="row" style="height:2em">
+                            <div class="col-sm-4 text-end">
+                                <label class="col-form-label">Birthday:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="col-form-label"><h5>{{doctor.birthday}}</h5></label>
+                            </div>
+                        </div>
+                        <div class="row" style="height:2em">
+                            <div class="col-sm-4 text-end">
+                                <label class="col-form-label">Age:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="col-form-label"><h5>{{0}}</h5></label>
+                            </div>
+                        </div>
+                        <div class="row" style="height:2em">
+                            <div class="col-sm-4 text-end">
+                                <label class="col-form-label">Phone:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="col-form-label"><h5>{{doctor.phone}}</h5></label>
+                            </div>
+                        </div>
+                        <div class="row" style="height:2em">
+                            <div class="col-sm-4 text-end">
+                                <label class="col-form-label">Email:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="col-form-label"><h5>{{doctor.emailId}}</h5></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-4 ps-0 pe-0">
+                <label class="text-center border-bottom ms-2 me-2"><h5>Work Experience</h5></label>
+                <div class="mt-1 mb-2" style="min-height:370px">
+                    <div class="row" *ngFor="let w of doctorDetail.workExperiences">
+                        <div class="row ms-1 me-1">
+                            <h6>{{'From:' + w.startDate + "   to:" + w.endDate}}</h6>
+                        </div>
+                        <div class="row  justify-content-end">
+                            <div class="col-11">
+                                <textarea class="form-control" readonly>{{w.description}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card ps-0" style="min-height: 600px">
+                <div class="row text-center">
+                    <h4>Introduction</h4>
+                </div>
+                <div class="row m-2">
+                    <div class="col-4 text-end">Department:</div>
+                    <div class="col-8 text-start">{{doctor.subtype}}</div>
+                </div>
+                <div class="row m-2">
+                    <div class="col-4 text-end">Appointment Fee:</div>
+                    <div class="col-8 text-start">{{'$' + doctorDetail.appointmentFee}}</div>
+                </div>
+                <div class="row ms-4 me-4">
+                    <textarea class="form-control border-0" id="introduce" style="resize: none" readonly>{{doctorDetail.introduce}}</textarea>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

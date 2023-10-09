@@ -1,0 +1,15 @@
+<div class="calendar">
+    <button (click)="previousMonth()">Previous</button>
+    <span>{{getCurrentMonth()}} - {{getCurrentYear()}}</span>
+    <button (click)="nextMonth()">Next</button>
+    
+    <div class="days">
+      <div *ngFor="let day of daysInMonth" [ngClass]="{
+        'selected': calendarService.getChooseDay() === day,
+        'disabled': disabledDays.includes(day)
+      }" (click)="calendarService.setChooseDay(day)">
+        {{ day }}
+      </div>
+    </div>
+  </div>
+  

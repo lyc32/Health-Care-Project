@@ -1,0 +1,524 @@
+<div class="container mt-4" style="min-height: 700px;" *ngIf="user != null" xmlns="http://www.w3.org/1999/html">
+  <div class="row">
+    <div class="col-sm-3 pe-4">
+      <div class="card border" style="height:550px;">
+        <div class="card-body text-start">
+          <div class="card-text">
+            <div class="row g-3">
+              <div class="col-sm-12 border-bottom">
+                <a class="col-form-label h3" href="myAccount/info">Info</a>
+              </div>
+              <div class="col-sm-12 border-bottom">
+                <a class="col-form-label h3" href="myAccount/account">My Account</a>
+              </div>
+              <div class="col-sm-12 border-bottom">
+                <a class="col-form-label h3" href="myAccount/message">Message</a>
+              </div>
+              <div class="col-sm-12 border-bottom">
+                <a class="col-form-label h3" href="myAccount/phone">Phone Number</a>
+              </div>
+              <div class="col-sm-12 border-bottom">
+                <a class="col-form-label h3" href="myAccount/email">E-mail ID</a>
+              </div>
+              <div class="col-sm-12 border-bottom">
+                <a class="col-form-label h3" href="myAccount/password">Reset Password</a>
+              </div>
+
+              <div class="col-sm-12 border-bottom" *ngIf="user.id != -1 && user.type == 'PERSON'">
+                <a class="col-form-label h3" href="myAccount/myCase">My Case</a>
+              </div>
+
+              <div class="col-sm-12 border-bottom" *ngIf="user.id != -1 && user.type == 'DOCTOR'">
+                <a class="col-form-label h3" href="myAccount/appointmentFee">My Appointment Fee</a>
+              </div>
+              <div class="col-sm-12 border-bottom" *ngIf="user.id != -1 && user.type == 'DOCTOR'">
+                <a class="col-form-label h3" href="myAccount/workExperience">Work Experience</a>
+              </div>
+              <div class="col-sm-12">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-9 p-0">
+      <div class="card border" style="width:850px; min-height:550px;">
+
+        <!-- My Account Info -->
+        <div *ngIf="type=='info' && user.id != -1">
+          <h3 class="card-title text-center p-4"> ID: {{user.id}}</h3>
+          <div class="row m-2">
+            <div class="col-3">
+              <img class="border" src="{{user.photo}}" style="width:180px; height:180px">
+            </div>
+            <div class="col-9">
+              <div class="row pt-2 pb-2">
+                <div class="row pt-2 pb-2 border-bottom">
+                  <div class="col-sm-3 text-end">
+                    <label class="col-form-label">Name:</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <label class="col-form-label"><h5>{{user.firstName + ' ' + user.lastName}}</h5></label>
+                  </div>
+                </div>
+                <div class="row pt-2 pb-2 border-bottom">
+                  <div class="col-sm-3 text-end">
+                    <label class="col-form-label">Birthday:</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <label class="col-form-label"><h5>{{user.birthday}}</h5></label>
+                  </div>
+                  <div class="col-sm-3 text-end">
+                    <label class="col-form-label">Age:</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <label class="col-form-label"><h5>{{age}}</h5></label>
+                  </div>
+                </div>
+
+                <div class="row pt-2 pb-2 border-bottom">
+                  <div class="col-sm-3 text-end">
+                    <label class="col-form-label">Gender:</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <label class="col-form-label"><h5>{{user.gender}}</h5></label>
+                  </div>
+                </div>
+
+                <div class="row pt-2 pb-2 border-bottom">
+                  <div class="col-sm-3 text-end">
+                    <label class="col-form-label">Account Type:</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <label class="col-form-label"><h5>{{user.type}}</h5></label>
+                    <div *ngIf="user.type=='DOCTOR'">
+                      <label class="col-form-label" ><h6>{{user.subtype}}</h6></label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row pt-2 pb-2 border-bottom" *ngIf="user.type == 'DOCTOR'">
+                  <div class="col-sm-3 text-end">
+                    <label class="col-form-label">Appointment Fee:</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <label class="col-form-label"><h5>{{'$' + doctorAppointmentFee}}</h5></label>
+                  </div>
+                </div>
+                <div class="row pt-2 pb-2 border-bottom">
+                  <div class="col-sm-3 text-end">
+                    <label class="col-form-label">Phone:</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <label class="col-form-label"><h5>{{user.phone}}</h5></label>
+                  </div>
+                </div>
+                <div class="row pt-2 pb-2 border-bottom">
+                  <div class="col-sm-3 text-end">
+                    <label class="col-form-label">E-mail:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <label class="col-form-label"><h5>{{user.emailId}}</h5></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Update Account Info -->
+        <div *ngIf="type=='account' && user.id != -1">
+          <h3 class="card-title text-center pt-3">Update Your Account Info</h3>
+          <hr class="text-secondary">
+          <div class="row g-3">
+            <form id="updatePhotoForm">
+              <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+              <div class="row pt-4 pb-4">
+                <div class="col-sm-8">
+                  <div class="row pb-4 mt-5">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">New Photo:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" name="photo" id="photo" value="{{user.photo}}" (change)="onchangePhoto()" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <img class="border" src="{{tmpPhoto}}" style="width:180px; height:180px">
+                </div>
+              </div>
+              <div class="row pt-4 pb-4">
+                <div class="col-3 text-end">
+                  Birthday:
+                </div>
+                <div class="col-4">
+                  <input type="date" class="form-control" name="birthday" id="birthday" value="{{user.birthday}}" required>
+                </div>
+                <div class="col-2 text-end">
+                  Gender:
+                </div>
+                <div class="col-2">
+                  <select id="gender" class="form-control">
+                    <option value="male">male</option>
+                    <option value="female">female</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+            <div class="row pt-4">
+              <div class="col-sm-11 text-end">
+                <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="updatePhoto()">update</button>
+              </div>
+              <div class="col-sm-12" id="errorMessage">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check My Message -->
+        <div *ngIf="type=='message' && user.id != -1">
+          <h3 class="card-title text-center pt-3">My Message</h3>
+          <hr class="text-secondary">
+          <div class="row m-2">
+            <div class="col-sm-3">
+              <h4 class="card bg-light text-center" *ngIf="showSendMessageList==true" >Sent To: </h4>
+              <h4 class="card bg-light text-center" *ngIf="showSendMessageList==false">Received:  </h4>
+            </div>
+          </div>
+          <div style="height:330px; overflow: auto" *ngIf="showSendMessageList==true">
+            <div class="row justify-content-end me-4 mt-3" *ngFor="let m of sendMessageList">
+              <div class="col-11">
+                <div class="card" *ngIf="m.read == 0">
+                  <div class="card-title border-bottom bg-secondary-subtle py-0">
+                    <div class="row">
+                      <div class="col-9 mb-0 ps-3 pb-0">
+                        <h6 class="text-secondary">{{'To: ' + m.toAccountName}}</h6>
+                        <h6 class="text-secondary">{{'Title: ' + m.title}}</h6>
+                      </div>
+                      <div class="col-3 justify-content-end text-end">
+                        <button class="btn btn-outline-danger px-2 py-0" (click)="deleteMessage(m)">X</button>
+                      </div>
+                    </div>
+                  </div>
+                  <textarea class="form-control text-secondary border-0 mt-0 pt-0" style="height:80px; overflow: auto" readonly>{{m.message}}</textarea>
+                  <div class="card-footer text-end bg-secondary-subtle py-0">
+                    <h6 class="mt-0 pt-0 mb-0 pb-0 text-secondary">{{m.time}}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="min-height:330px; overflow: auto" *ngIf="showSendMessageList==false">
+            <div class="row justify-content-end me-4 mt-3" *ngFor="let m of receiveMessageList">
+              <div class="col-11">
+                <div class="card bg-light">
+                  <div class="card-title border-bottom bg-secondary-subtle">
+                    <div class="row">
+                      <div class="col-9 mb-0 pb-0">
+                        <h5 class="mt-1 ms-4 text-secondary">{{ m.title}}</h5>
+                      </div>
+                      <div class="col-3 justify-content-end text-end">
+                        <button class="btn btn-outline-danger px-2 py-0" (click)="deleteMessage(m)">X</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body bg-light" style="height:50px; overflow: auto">
+                    <p class="text-secondary">{{m.message}}</p>
+                  </div>
+                  <div class="card-footer text-end bg-secondary-subtle py-1">
+                    <div class="row">
+                      <div class="col-8 text-start">
+                        <button class="btn btn-sm btn-primary m-1" *ngIf="m.read == 0 && m.type == 'message'">Read</button>
+                        <button class="btn btn-sm btn-primary m-1" *ngIf="m.read == 0 && m.type == 'message'" (click) = "showReplyView()" >reply</button>
+                        <button class="btn btn-sm btn-success m-1" *ngIf="m.read == 0 && m.type == 'rescheduleAppointment'">Agree</button>
+                        <button class="btn btn-sm btn-danger m-1"  *ngIf="m.read == 0 && m.type == 'rescheduleAppointment'">Reject</button>
+                      </div>
+                      <div class="col-4 text-end">
+                        <h6 class="m-0 p-0 text-secondary">{{m.fromAccountName + " " + m.time}}</h6>
+                      </div>
+                    </div>
+                    <div class="row mt-1 justify-content-end" *ngIf="showReply == true">
+                      <textarea class="form-control" id="{{m.id+'_replyMessage'}}"></textarea>
+                      <div class="row mt-1 justify-content-end">
+                        <div class="col-2 justify-content-end text-end">
+                          <button class="btn btn-sm btn-primary" (click)="sendMessage(m)">Reply</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <hr class="text-secondary">
+          <div class="row justify-content-end mb-3">
+            <div class="col-3">
+              <button class="btn btn-primary" style="width:150px">
+                <label *ngIf="showSendMessageList==true" (click)="showReceiveMassageList()">show Received</label>
+                <label *ngIf="showSendMessageList==false"  (click)="showSendMassageList()" >show I Sent</label>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Update Phone Number -->
+        <div *ngIf="type=='phone' && user.id != -1">
+          <h3 class="card-title text-center pt-3">Update Your Phone Number</h3>
+          <hr class="text-secondary">
+          <div class="row g-3">
+            <form id="updatePhoneForm">
+              <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+              <div class="row pt-4 pb-4">
+                <div class="col-sm-12">
+                  <div class="row pb-4">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">Your Current Phone:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" name="oldPhone" id="oldPhone" value="{{user.phone}}" readonly>
+                    </div>
+                  </div>
+                  <div class="row pb-4">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">New Phone:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" name="phone" id="phone" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="row pt-4">
+              <div class="col-sm-11 text-end">
+                <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="updatePhoneNumber()">update</button>
+              </div>
+              <div class="col-sm-12" id="errorMessage">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Update Email Id -->
+        <div *ngIf="type=='email' && user.id != -1">
+          <h3 class="card-title text-center pt-3">Update Your E-mail</h3>
+          <hr class="text-secondary">
+          <div class="row g-3">
+            <form id="updateEmailForm">
+              <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+              <div class="row pt-4 pb-4">
+                <div class="col-sm-12">
+                  <div class="row pb-4">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">Your Current Email:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="email" class="form-control" name="oldEmail" id="oldEmail" value="{{user.emailId}}" readonly>
+                    </div>
+                  </div>
+                  <div class="row pb-4">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">New Email:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="email" class="form-control" name="email" id="email" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="row pt-4">
+              <div class="col-sm-11 text-end">
+                <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="updateEmail()">update</button>
+              </div>
+              <div class="col-sm-12" id="errorMessage">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset Password -->
+        <div *ngIf="type=='password' && user.id != -1">
+          <h3 class="card-title text-center pt-3">Reset Password</h3>
+          <hr class="text-secondary">
+          <div class="row g-3">
+            <form id="updatePasswordForm">
+              <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+              <input type="hidden" name="column" value="Password">
+              <div class="row pt-4 pb-4">
+                <div class="col-sm-12">
+                  <div class="row pb-4">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">Current Password:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="password" class="form-control" name="oldPassword" id="oldPassword" required>
+                    </div>
+                  </div>
+                  <div class="row pb-4">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">New Password:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">Confirm Password:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="password" class="form-control" name="confirm" id="confirm" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="row pt-4">
+              <div class="col-sm-11 text-end">
+                <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="resetPassword()">Reset</button>
+              </div>
+              <div class="col-sm-12" id="errorMessage">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Update Appointment Fee -->
+        <div *ngIf="type=='appointmentFee' && user.id != -1 && user.type == 'DOCTOR'">
+          <h3 class="card-title text-center pt-3">Update Your Appointment Fee</h3>
+          <hr class="text-secondary">
+          <div class="row g-3">
+            <form id="updateAppointmentFeeForm">
+              <input type="hidden" name="user_id" id="user_id" value="{{user.id}}">
+              <div class="row pt-4 pb-4">
+                <div class="col-sm-12">
+                  <div class="row pb-4">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">Your Current Appointment Fee:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" value="{{'$' + doctorAppointmentFee}}" readonly>
+                    </div>
+                  </div>
+                  <div class="row pb-4">
+                    <div class="col-sm-4 text-end">
+                      <label class="col-form-label">New Appointment Fee:</label>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" name="appointmentFee" id="appointmentFee" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="row pt-4">
+              <div class="col-sm-11 text-end">
+                <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="updateAppointmentFee()">update</button>
+              </div>
+              <div class="col-sm-12" id="errorMessage">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Update Work Experience -->
+        <div *ngIf="type=='workExperience' && user.id != -1 && user.type == 'DOCTOR'" >
+          <h3 class="card-title text-center pt-3">My Work Experience</h3>
+          <hr class="text-secondary">
+          <div class="col-sm-12 ms-2">
+            <h6>Experience: <button class="btn btn-outline-danger py-0" id="showAddExperienceButton" (click)="showAddExperienceFrom()">+</button></h6>
+          </div>
+          <div class="col-sm-12 ms-2" id = "addExperienceFrom" style = "height:150px;" *ngIf="showAddExperienceForm==true">
+            <div class="row pb-2">
+              <div class="col-sm-1 ms-1">
+                <button class="btn btn-outline-danger py-0" (click)="addExperience()">+</button>
+              </div>
+              <div class="col-sm-10 ms-1">
+                <div class="row pb-2">
+                  <div class="col-sm-1">
+                    From
+                  </div>
+                  <div class="col-sm-2">
+                    <input class="form-control" type="date" name = 'startDate' id="startDate">
+                  </div>
+                  <div class="col-sm-1">
+                    To
+                  </div>
+                  <div class="col-sm-2">
+                    <input class="form-control" type="date" name = 'endDate' id="endDate">
+                  </div>
+                </div>
+                <div class="row pb-2 justify-content-center">
+                  <div class="col-sm-11 ms-2 ">
+                    <textarea class="form-control" name = 'description' id="description"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 ms-2" id = "experienceList"  style="height:150px; overflow: auto" *ngIf="showAddExperienceForm==false">
+            <div class="row pb-2" *ngFor = "let workExperience of doctorWorkExperiencesList">
+              <div class="col-sm-1 ms-2">
+                <button class="btn btn-outline-danger py-0" (click)="deleteExperience(workExperience)">-</button>
+              </div>
+              <div class="col-sm-10 ms-2">
+                <div class="row pb-2">
+                  {{"From: " + workExperience.startDate + " To: " + workExperience.endDate}}
+                </div>
+                <div class="row pb-2 justify-content-center">
+                  <div class="col-sm-11 ms-2 ">
+                    <textarea class="form-control" >{{workExperience.description}}</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="text-secondary">
+
+          <div class="row pb-2">
+            <div class="col-sm-2 ms-2">
+              <h6>Resume:</h6>
+            </div>
+          </div>
+          <div class="row pb-2 justify-content-center">
+            <div class="col-sm-10 ms-2 ">
+              <textarea class="form-control" style="min-height:140px;" name = "introduce" id="introduce">{{doctorIntroduce}}</textarea>
+            </div>
+          </div>
+
+          <div class="row g-3">
+            <div class="row pt-4">
+              <div class="col-sm-11 text-end">
+                <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="updateWorkExperience()">Update</button>
+              </div>
+              <div class="col-sm-12" id="errorMessage">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Case -->
+        <div *ngIf="type=='myCase' && user.id != -1 && user.type == 'PERSON'" >
+          <h3 class="card-title text-center pt-3">My Case</h3>
+          <hr class="text-secondary">
+          <div class="row m-2" *ngFor="let detail of customerDetails">
+            <label>{{detail.date + " "+ detail.time/100 + ":00"}}</label>
+            <div class = "row m-0">
+              <textarea class="form-control">{{detail.case}}</textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
