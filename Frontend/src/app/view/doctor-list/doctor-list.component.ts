@@ -95,9 +95,21 @@ export class DoctorListComponent implements OnInit{
     this.preDeleteId = -1;
   }
 
-  delete(doctorId:number)
+  delete(id:number)
   {
-
+    this.accountService.deleteAccountById(id)
+        .subscribe(
+            data =>
+            {
+              if(data == "deleted")
+              {
+                window.location.href = "message/deleteDoctorSuccessful";
+              }
+              else
+              {
+                window.location.href = "message/deleteDoctorFailed";
+              }
+            })
   }
 
 }

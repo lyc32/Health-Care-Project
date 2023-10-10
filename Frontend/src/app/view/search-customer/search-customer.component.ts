@@ -3,6 +3,8 @@ import {Account} from "../../model/account";
 import {Appointment} from "../../model/appointment";
 import {ActivatedRoute} from "@angular/router";
 import {AppointmentService} from "../../service/appointment-service";
+import { AccountService } from 'src/app/service/account-service';
+import {Message} from "../../model/message";
 
 @Component({
   selector: 'app-customer-list',
@@ -15,6 +17,9 @@ export class SearchCustomerComponent implements OnInit
   currentAccountList: Account[] = [];
   currentAccount:Account = new Account();
 
+  showDeleteView:boolean = false;
+  showResetView :boolean = false;
+
   ngOnInit()
   {
     // @ts-ignore
@@ -25,7 +30,7 @@ export class SearchCustomerComponent implements OnInit
     }
   }
 
-  constructor(private router:ActivatedRoute, private appointmentService:AppointmentService)
+  constructor(private router:ActivatedRoute, private accountService:AccountService)
   {
   }
 
@@ -37,13 +42,103 @@ export class SearchCustomerComponent implements OnInit
     let emailId  = (document.getElementById("emailId") as HTMLInputElement).value;
     let phone    = (document.getElementById("phone") as HTMLInputElement).value;
     let birthday = (document.getElementById("birthday") as HTMLInputElement).value;
-    let age      = (document.getElementById("age") as HTMLInputElement).value;
     let gender   = (document.getElementById("gender") as HTMLInputElement).value;
 
-    /*this.appointmentService.search(doctorId, doctorName, personName, date, time, Number(fee))
+    let numberId = -1
+    if( id !=='')
+    {
+      numberId=Number(id);
+    }
+
+    this.accountService.search(numberId, firstName, lastName, emailId, phone, birthday, gender)
       .subscribe(
-        (data) => {
+        (data) =>
+        {
+          console.log(data);
           this.currentAccountList = data;
-        });*/
+        });
   }
+
+   showAccountView(account:Account)
+   {
+     this.currentAccount = account;
+     this.showResetView  = false;
+     this.showDeleteView = false;
+   }
+
+   deleteView()
+   {
+     this.showDeleteView = true;
+   }
+
+   closeDeleteView()
+   {
+     this.showDeleteView = false;
+   }
+
+   deleteAccount(id:number)
+   {
+       this.accountService.deleteAccountById(id)
+           .subscribe(
+               data =>
+               {
+                   if(data == "deleted")
+                   {
+                       window.location.href = "message/deleteAccountSuccessful";
+                   }
+                   else
+                   {
+                       window.location.href = "message/deleteAccountFailed";
+                   }
+               })
+   }
+
+   resetView()
+   {
+       this.showResetView = true;
+   }
+
+   closeResetView()
+   {
+       this.showResetView = false;
+   }
+
+   resetPassword()
+   {
+       let id = this.currentAccount.id;
+       let password = (document.getElementById("password") as HTMLInputElement).value;
+       let confirm = (document.getElementById("confirm") as HTMLInputElement).value;
+       if (password == '')
+       {
+           // @ts-ignore
+           document.getElementById("errorMessage").innerHTML = '<div class="alert alert-danger"> Password Is Empty</div>';
+       }
+       else if(password != confirm)
+       {
+           // @ts-ignore
+           document.getElementById("errorMessage").innerHTML = '<div class="alert alert-danger">PassWord and Confirm Password not Match</div>';
+       }
+       else
+       {
+           this.accountService.resetPassword(id, password).subscribe(
+               (data)=>
+               {
+                   if(data.id > 0)
+                   {
+                       window.location.href = "message/adminResetUserPasswordSuccessful";
+                   }
+                   else
+                   {
+                       window.location.href = "message/adminResetUserPasswordFailed";
+                   }
+               },
+               error =>
+               {
+                   window.location.href = "message/adminResetUserPasswordFailed";
+               }
+           );
+       }
+   }
+
+
 }

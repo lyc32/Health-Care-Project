@@ -107,6 +107,21 @@ export class MessageComponent implements OnInit
       this.message = 'Send Message Successful';
       this.targetPage = document.referrer;
     }
+    else if(this.router.snapshot.params['message'] == 'deleteAccountSuccessful')
+    {
+      this.message = 'Delete Account Successful';
+      this.targetPage = document.referrer;
+    }
+    else if(this.router.snapshot.params['message'] == 'deleteDoctorSuccessful')
+    {
+      this.message = 'Delete Doctor Successful';
+      this.targetPage = document.referrer;
+    }
+    else if(this.router.snapshot.params['message'] == 'adminResetUserPasswordSuccessful')
+    {
+      this.message = 'Reset Password Successful';
+      this.targetPage = document.referrer;
+    }
     else
     {
       this.message = 'Error: ' + this.router.snapshot.params['message'];

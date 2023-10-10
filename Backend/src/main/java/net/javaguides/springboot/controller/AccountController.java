@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.javaguides.springboot.memoryDB.MemoryDB;
+import net.javaguides.springboot.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -140,6 +141,10 @@ public class AccountController
 		}
 	}
 
+	@PostMapping("/accounts/search")
+	public List<Account> searchAccount(Long id, String firstName, String lastName, String  emailId, String  phone, String  birthday, String  gender, String type)
+	{
+		return accountRepository.search(id, firstName, lastName, emailId, phone, birthday, gender, type);
+	}
 
-	
 }

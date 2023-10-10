@@ -196,7 +196,7 @@ export class SearchAppointmentComponent implements OnInit
                 newMessage.toAccountId = appointment.personId;
                 newMessage.toAccountName = appointment.person_name;
                 newMessage.type = "message";
-                newMessage.title = "[System] Doctor #" + this.user.id + " " + appointment.doctor_name + " Cancel Appointment"
+                newMessage.title = "[System] "+ this.user.type +" #" + this.user.id + " " + appointment.doctor_name + " Cancel Appointment"
                 newMessage.message = "Date:"+ appointment.date + "\nTime:" + appointment.time/100 + ":00";
                 newMessage.time = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes();
                 this.messageService.createMessage( this.user.id, appointment.personId, newMessage)
@@ -239,7 +239,7 @@ export class SearchAppointmentComponent implements OnInit
         newMessage.toAccountId = appointment.personId;
         newMessage.toAccountName = appointment.person_name;
         newMessage.type = "message";
-        newMessage.title = "[System] Doctor #" + this.user.id + " " + appointment.doctor_name + " Reschedule Appointment"
+        newMessage.title = "[System] "+ this.user.type +" #" + this.user.id + " " + appointment.doctor_name + " Reschedule Appointment"
         newMessage.message = "Date:"+ appointment.date + "\nTime:" + appointment.time/100 + ":00\nLocation:" + newAppointmentDetail.location + "\nAdditional:["  + newAppointmentDetail.additional + "]";
         newMessage.time = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes();
 

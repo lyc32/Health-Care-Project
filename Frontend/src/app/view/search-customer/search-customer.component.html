@@ -55,7 +55,7 @@
 
   <div class="row mt-2" >
     <div class="col-sm-8">
-      <div class="card text-center" style="min-height:500px">
+      <div class="card text-center" style="height:500px;overflow: auto">
         <table class="table table-sm" >
           <thead>
           <tr>
@@ -88,7 +88,7 @@
               {{account.gender}}
             </td>
             <td>
-              <button class="btn btn-primary"> -> </button>
+              <button class="btn btn-primary" (click)="showAccountView(account)"> -> </button>
             </td>
           </tr>
           </tbody>
@@ -97,8 +97,92 @@
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="card text-center" style="min-height:400px">
-        Customer history Case
+      <div class="card text-center" style="height:500px" *ngIf="currentAccount.id < 0">
+        <div class="h4 m-4 text-secondary">No Data</div>
+      </div>
+      <div class="card text-center" style="height:500px" *ngIf="currentAccount.id > 0">
+        <h5 class="card-title text-center mt-2"> ID: {{currentAccount.id}}</h5>
+        <div class="row mt-0">
+          <div class="col-5">
+            <img class="border" src="{{currentAccount.photo}}" style="width:150px; height:150px">
+            <label class="col-form-label"><h6>{{currentAccount.firstName + ' ' + currentAccount.lastName}}</h6></label>
+          </div>
+          <div class="col-7">
+            <div class="row pt-1 pb-1">
+              <div class="row border-bottom">
+                <div class="col-sm-3 text-end">
+                  <label class="col-form-label">Birthday:</label>
+                </div>
+                <div class="col-sm-9">
+                  <label class="col-form-label"><h6>{{currentAccount.birthday}}</h6></label>
+                </div>
+              </div>
+
+              <div class="row border-bottom">
+                <div class="col-sm-3 text-end">
+                  <label class="col-form-label">Gender:</label>
+                </div>
+                <div class="col-sm-9">
+                  <label class="col-form-label"><h6>{{currentAccount.gender}}</h6></label>
+                </div>
+              </div>
+              <div class="row border-bottom">
+                <div class="col-sm-3 text-end">
+                  <label class="col-form-label">Phone:</label>
+                </div>
+                <div class="col-sm-9">
+                  <label class="col-form-label"><h6>{{currentAccount.phone}}</h6></label>
+                </div>
+              </div>
+              <div class="row border-bottom">
+                <div class="col-sm-3 text-end">
+                  <label class="col-form-label">Email:</label>
+                </div>
+                <div class="col-sm-8">
+                  <label class="col-form-label"><h6>{{currentAccount.emailId}}</h6></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4" *ngIf="showDeleteView==false && showResetView==false">
+          <div class="col-6 ps-4">
+            <button class="btn btn-primary" (click)="resetView()">Reset Password</button>
+          </div>
+          <div class="col-6 pe-4">
+            <button class="btn btn-danger" (click)="deleteView()">Delete Account</button>
+          </div>
+        </div>
+        <div class="row mt-4 justify-content-center" *ngIf="showDeleteView==true">
+          <div class="card m-4" style="width: 300px">
+            <label class="mt-4">Do You Want To Delete This Account?</label>
+            <div class="row mt-4 mb-4">
+              <div class="col-6 text-center">
+                <button class="btn btn-primary" (click)="closeDeleteView()">No</button>
+              </div>
+              <div class="col-6 text-center">
+                <button class="btn btn-danger" (click)="deleteAccount(currentAccount.id)">Yes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2 justify-content-center" *ngIf="showResetView==true">
+          <div class="card m-1" style="width: 300px">
+            <label class="mt-2">New Password</label>
+            <input class="form-control" type="password" id="password">
+            <label class="mt-2">Confirm Password</label>
+            <input class="form-control" type="password" id="confirm">
+            <div class="row mt-4 mb-4">
+              <div class="col-6 text-center">
+                <button class="btn btn-primary px-3" (click)="closeResetView()">Abort</button>
+              </div>
+              <div class="col-6 text-center">
+                <button class="btn btn-danger" (click)="resetPassword()">Update</button>
+              </div>
+            </div>
+          </div>
+          <div id="errorMessage"></div>
+        </div>
       </div>
     </div>
   </div>

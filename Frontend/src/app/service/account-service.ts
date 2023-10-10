@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {observable, Observable} from "rxjs";
 import { Account } from "../model/account";
+import {Appointment} from "../model/appointment";
 
 
 @Injectable({
@@ -115,6 +116,30 @@ export class AccountService
   getAccountById(id : number):Observable<Account>
   {
     return this.httpClient.get<Account>(`${this.baseURL}` + "/" + id);
+  }
+
+
+  deleteAccountById(id:number):Observable<Object>
+  {
+    return this.httpClient.delete(`${this.baseURL}` + "/" + id, {responseType: 'text'});
+  }
+
+  search(id:number, firstName:string, lastName:string, emailId:string, phone:string, birthday:string, gender:string):Observable<Account []>
+  {
+    const info = {
+      id:id,
+      firstName: firstName,
+      lastName: lastName,
+      emailId:emailId,
+      phone:phone,
+      birthday:birthday,
+      gender:gender,
+      type: 'PERSON'
+    }
+    const params = new HttpParams({
+      fromObject: info
+    });
+    return this.httpClient.post<Account[]>(this.baseURL + '/search', params);
   }
 
 

@@ -9,7 +9,7 @@ import {Message} from "./model/message";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Doctor';
+  title = 'Health-Care-Center';
   user:Account = new Account();
   msgNumber:number = 0;
 
@@ -21,6 +21,10 @@ export class AppComponent {
       this.user    = JSON.parse( window.sessionStorage.getItem('healthCenterUser') );
       // @ts-ignore
       this.msgNumber = JSON.parse( window.sessionStorage.getItem('healthCenterUserMessage') ).length;
+      if(this.user.type != "PERSON")
+      {
+        this.title = this.user.type.toLowerCase();
+      }
     }
     else
     {
