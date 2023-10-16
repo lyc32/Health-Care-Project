@@ -24,11 +24,11 @@ export class AppointmentService
   }
   getAllAppointmentsByDate(date : string):Observable<Appointment[]>
   {
-    return this.httpClient.get<Appointment[]>(`${this.baseURL}/${date}`);
+    return this.httpClient.get<Appointment[]>(`${this.baseURL}/date/${date}`);
   }
   getAppointmentsById(id : number):Observable<Appointment>
   {
-    return this.httpClient.get<Appointment>(`${this.baseURL}/${id}`);
+    return this.httpClient.get<Appointment>(`${this.baseURL}/appointment/${id}`);
   }
   updateAppointment(id : number, appointment : Appointment): Observable<Appointment>
   {

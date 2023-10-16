@@ -89,12 +89,12 @@ export class AccountInfoComponent implements OnInit
     else if (gender == '')
     {
       // @ts-ignore
-      document.getElementById("errorMessage").innerHTML = '<div class="alert alert-danger">Photo Link Is Empty</div>';
+      document.getElementById("errorMessage").innerHTML = '<div class="alert alert-danger">Please Choose Your Gender</div>';
     }
     else if (birthday == '')
     {
       // @ts-ignore
-      document.getElementById("errorMessage").innerHTML = '<div class="alert alert-danger">Photo Link Is Empty</div>';
+      document.getElementById("errorMessage").innerHTML = '<div class="alert alert-danger">Please Choose Your Birthday</div>';
     }
     else
     {
@@ -106,6 +106,7 @@ export class AccountInfoComponent implements OnInit
           },
           error =>
           {
+            console.log(error)
             window.location.href = "message/updateFailed";
           }
       );

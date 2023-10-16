@@ -72,7 +72,7 @@ export class MessageComponent implements OnInit
         this.targetPage = "home";
       }
     }
-    else if(this.router.snapshot.params['message'] == 'makeAppointmentSuccessful' && user == null)
+    else if(this.router.snapshot.params['message'] == 'accessForbidden' && user == null)
     {
       this.message = '403 Access Forbidden';
       this.targetPage = "logIn";
@@ -112,9 +112,19 @@ export class MessageComponent implements OnInit
       this.message = 'Delete Account Successful';
       this.targetPage = document.referrer;
     }
+    else if(this.router.snapshot.params['message'] == 'createDoctorSuccessful')
+    {
+      this.message = 'Create Doctor Successful';
+      this.targetPage = 'admin/doctorList';
+    }
     else if(this.router.snapshot.params['message'] == 'deleteDoctorSuccessful')
     {
       this.message = 'Delete Doctor Successful';
+      this.targetPage = document.referrer;
+    }
+    else if(this.router.snapshot.params['message'] == 'updateDoctorSuccessful')
+    {
+      this.message = 'Update Doctor Successful';
       this.targetPage = document.referrer;
     }
     else if(this.router.snapshot.params['message'] == 'adminResetUserPasswordSuccessful')

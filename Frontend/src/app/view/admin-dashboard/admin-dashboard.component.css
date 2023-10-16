@@ -1,0 +1,227 @@
+* {box-sizing:border-box;}
+ul {list-style-type: none;}
+body {font-family: Verdana,sans-serif;}
+
+.month {
+    padding: 20px 25px;
+    width: 100%;
+    background: #1abcFF;
+    border-radius:5px;
+}
+
+.month ul {
+    margin: 0;
+    padding: 0;
+}
+
+.month ul li {
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.month .prev {
+    float: left;
+    padding-top: 10px;
+}
+
+.month .next {
+    float: right;
+    padding-top: 10px;
+}
+
+.weekdays {
+    margin-top: -10px;
+    padding: 10px 0;
+    background-color: #ddd;
+}
+
+.weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+}
+
+.days {
+    padding: 0px 0;
+    background: #eee;
+    margin-top: -16px;
+    margin-bottom: 0px;
+}
+
+.days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size:12px;
+    color: #777;
+}
+
+.days li .active {
+    padding: 5px;
+    background: #1abcFF;
+    color: white !important
+}
+
+@media screen and (max-width:720px) {
+    .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+    .weekdays li, .days li {width: 12.5%;}
+    .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+    .weekdays li, .days li {width: 12.2%;}
+}
+
+/***************/
+/*  CLOCK PART */
+/***************/
+
+.time-container, .inner-container, .clock-center, .scale, .hour-scale {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.outer-container {
+    width: 235px;
+    height: 235px;
+    left: 10%;
+    border: 5px solid #1abcFF;
+    background-color: #EEEEEE;
+    border-radius: 50%;
+}
+
+.inner-container {
+    width: 150px;
+    height: 150px;
+    border: 2px solid #2accFF;
+    background-color: #EEEEEE;
+}
+
+.time-container
+{
+    top: 70%;
+    width: 100px;
+    height: 30px;
+    border: 2px solid #2accFF;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.clock-center {
+    background-color: #CC1111;
+    width: 15px;
+    height: 15px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.scale {
+    width: 5px;
+    height: 20px;
+    position: absolute;
+    border-radius: 3px;
+    background-color: #1abcFF;
+}
+
+.top-scale {
+    transform: translate(-50%, -50%) translateY(-100px);
+}
+
+.bottom-scale {
+    transform: translate(-50%, -50%) rotate(180deg) translateY(-100px);
+}
+
+.left-scale {
+    transform: translate(-50%, -50%) rotate(90deg) translateY(-100px);
+}
+
+.right-scale {
+    transform: translate(-50%, -50%) rotate(270deg) translateY(-100px);
+}
+
+.hour-scale {
+    width: 3px;
+    height: 10px;
+    background-color: #777777;
+    border-radius: 3px;
+
+}
+
+.one-scale {
+    transform: translate(-50%, -50%) rotate(30deg) translateY(-100px);
+}
+
+.two-scale {
+    transform: translate(-50%, -50%) rotate(60deg) translateY(-100px);
+}
+
+.four-scale {
+    transform: translate(-50%, -50%) rotate(120deg) translateY(-100px);
+}
+
+.five-scale {
+    transform: translate(-50%, -50%) rotate(150deg) translateY(-100px);
+}
+
+.seven-scale {
+    transform: translate(-50%, -50%) rotate(210deg) translateY(-100px);
+}
+
+.eight-scale {
+    transform: translate(-50%, -50%) rotate(240deg) translateY(-100px);
+}
+
+.ten-scale {
+    transform: translate(-50%, -50%) rotate(300deg) translateY(-100px);
+}
+
+.eleven-scale {
+    transform: translate(-50%, -50%) rotate(330deg) translateY(-100px);
+}
+
+.pointer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 100% 0;
+}
+
+.hour-pointer {
+    width: 10px;
+    height: 50px;
+    background-color: #2a7ede;
+    transform: translate(-50%, -100%) rotate(0deg);
+    border-radius: 3px;
+}
+
+.minute-pointer {
+    width: 6px;
+    height: 90px;
+    background-color: #62b5fc;
+    transform: translate(-50%, -100%) rotate(0deg);
+    border-radius: 3px;
+    transition: transform 500ms ease-in;
+}
+
+.second-pointer {
+    width: 3px;
+    height: 100px;
+    background-color: #ee6629;
+    transform: translate(-50%, -100%) rotate(0deg);
+}
+
+.doctor-img {
+    border-radius: 50%;
+}

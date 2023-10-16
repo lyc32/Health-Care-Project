@@ -182,7 +182,6 @@ export class MakeAppointmentComponent
     this.getAvailableTime();
   }
 
-  // Bugs####################################################################
   getAvailableTime()
   {
     let checkDate = this.year*10000 + this.mouthIndex*100 + this.date;
@@ -204,7 +203,6 @@ export class MakeAppointmentComponent
       }
     })
   }
-  // Bugs####################################################################
 
   chooseTime(time:number)
   {

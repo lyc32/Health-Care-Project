@@ -30,6 +30,8 @@ export class DoctorProfileComponent implements OnInit
               this.age = new Date().getFullYear() - new Date(this.doctor.birthday).getFullYear();
             });
   }
+
+
   ngDoCheck()
   {
     const textArea = (document.getElementById("introduce") as HTMLTextAreaElement);

@@ -1,4 +1,115 @@
-<div class="container text-center">
-  <h1>admin-dashboard works!</h1>
+<div class="container-fluid text-center">
+  <div class="row mt-4">
+    <div class="col-sm-3">
+      <div class="card outer-container justify-content-center">
+        <div class="inner-container">
+          <div class="clock-center"></div>
+          <div class="time-container text-secondary">{{currentTime|date:'hh:mm:ss'}}</div>
+          <div class="scale  left-scale"></div>
+          <div class="scale  top-scale"></div>
+          <div class="scale  right-scale"></div>
+          <div class="scale  bottom-scale"></div>
+          <div class="hour-scale one-scale"></div>
+          <div class="hour-scale two-scale"></div>
+          <div class="hour-scale four-scale"></div>
+          <div class="hour-scale five-scale"></div>
+          <div class="hour-scale seven-scale"></div>
+          <div class="hour-scale eight-scale"></div>
+          <div class="hour-scale ten-scale"></div>
+          <div class="hour-scale eleven-scale"></div>
+          <div class="pointer hour-pointer"></div>
+          <div class="pointer minute-pointer"></div>
+          <div class="pointer second-pointer"></div>
+        </div>
+      </div>
+      <br>
+      <div class="card">
+        <div class="card-title">
+          <div class="month">
+            <ul>
+              <li style="text-align:center">{{mouth}}<br>
+                <span style="font-size:18px">{{year}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <ul class="weekdays">
+          <li>Su</li>
+          <li>Mo</li>
+          <li>Tu</li>
+          <li>We</li>
+          <li>Th</li>
+          <li>Fr</li>
+          <li>Sa</li>
+        </ul>
+        <ul class="days" >
+          <li *ngFor="let i of emptyDays" >
+            <span>{{i}}</span>
+          </li>
+          <li *ngFor="let i of days" >
+            <span *ngIf="i == date" class="active">{{i}}</span>
+            <span *ngIf="i != date" >{{i}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-6 p-2">
+      <div class="card border">
+        <canvas class="p-2" id="pieChart">{{ pieChart }}</canvas>
+      </div>
+      <div class="card border mt-4">
+        <canvas id="barChart">{{ barChart }}</canvas>
+      </div>
+    </div>
+    <div class="col-sm-3 mt-3">
+      <div class="card">
+        <div class="card-title border-bottom">
+          <label>Online Doctor</label>
+        </div>
+        <div class="card-body">
+          <div class="card mb-1" *ngFor="let doctor of onlineDoctors">
+            <div class="row" (click)="showMessageView(doctor.id)">
+              <div class="col-4 m-2" >
+                <img class="doctor-img" style="width:100px;height: 100px" src="{{doctor.photo}}">
+              </div>
+              <div class="col-7 mt-2">
+                <label  class="h6">{{doctor.firstName + " " + doctor.lastName}}</label>
+                <label class="h6 text-secondary">{{doctor.subtype}}</label>
+              </div>
+            </div>
+            <div class="border-top" *ngIf="currentDoctorId == doctor.id && showSendMessage==true">
+              <div class="row mt-1 justify-content-start" >
+                <div class="col-9 h6 text-secondary mt-2">{{'To:' +doctor.firstName+' '+doctor.lastName}}</div>
+              </div>
+              <div class="row pb-1 pt-3">
+                <div class="col-sm-3 text-end ms-1">
+                  <label class="col-form-label">Title:</label>
+                </div>
+                <div class="col-sm-8">
+                  <input class="form-control" id="{{doctor.id+'title'}}">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-3 text-end ms-1">
+                  <label class="col-form-label">Message:</label>
+                </div>
+                <div class="col-sm-8">
+                  <textarea class="form-control" class="form-control" id="{{doctor.id+'message'}}" name="message" style="min-height:100px"></textarea>
+                </div>
+              </div>
+              <div class="row m-1 mt-3">
+                <div class="col-sm-12 text-end justify-content-end">
+                  <button class="btn btn-primary me-3" (click)="sendMessage(doctor)">Send Message</button>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 

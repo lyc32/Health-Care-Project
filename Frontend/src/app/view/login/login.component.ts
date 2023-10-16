@@ -38,7 +38,11 @@ export class LoginComponent
       this.accountService.login(email, password).subscribe(
         data =>
         {
-          if(data.id > 0)
+          if(data == null)
+          {
+            window.location.href = "message/noSuchAccount";
+          }
+          else if(data.id > 0)
           {
             window.sessionStorage.setItem("healthCenterUser", JSON.stringify(data));
             this.messageService.getMyReceiveMessage(data.id).subscribe(data => {window.sessionStorage.setItem("healthCenterUserMessage", JSON.stringify(data))})

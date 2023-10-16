@@ -3,11 +3,11 @@
     <div class="card" style="max-width: 600px;">
       <div class="row g-0">
         <div class="card-body">
-          <h3 class="card-title text-center border-bottom  pb-4">Sign In</h3>
+          <h3 class="card-title text-center border-bottom  pb-4" *ngIf="user.id < 0">Sign In</h3>
+          <h3 class="card-title text-center border-bottom  pb-4" *ngIf="user.type == 'ADMIN'">Create A New Doctor</h3>
           <div id="errorMessage">
           </div>
           <form id="signInForm" class="row">
-            <p class="card-text pt-0">
             <div class="row">
               <div class="col-sm-6">
                 <label for="firstName" class="col-form-label">First Name:</label>
@@ -18,7 +18,14 @@
                 <input type="text" class="form-control" name="lastName" id="lastName" required>
               </div>
             </div>
-            <p class="card-text">
+            <div class="row" *ngIf="user.type == 'ADMIN'">
+              <div class="col-sm-12">
+                <label class="col-form-label">Department:</label>
+                <select id="department" class="form-control">
+                  <option *ngFor="let e of menus.DOCTOR_TYPE" value="{{e}}">{{e}}</option>
+                </select>
+              </div>
+            </div>
             <div class="row">
               <div class="col-sm-12">
                 <label for="phone" class="col-form-label">Phone:</label>
@@ -31,7 +38,6 @@
                 <input type="email" class="form-control" name="email" id="email" required>
               </div>
             </div>
-            <p class="card-text">
             <div class="row">
               <div class="col-sm-12">
                 <label for="password" class="col-form-label">Password:</label>
@@ -45,7 +51,8 @@
           </form>
           <p class="card-text pb-2">
           <div class="col-auto border-top mt-4 pt-4 text-center">
-            <button class="btn btn-primary mb-3 btn-lg py-1 ms-4" style="width: 100px" (click)="signIn()">submit</button>
+            <button class="btn btn-primary mb-3 btn-lg py-1 ms-4" style="width: 100px" (click)="signIn()" *ngIf="user.id < 0">submit</button>
+            <button class="btn btn-primary mb-3 btn-lg py-1 ms-4" style="width: 100px" (click)="createDoctor()" *ngIf="user.type == 'ADMIN'">create</button>
             <button class="btn btn-primary mb-3 btn-lg py-1 ms-4" style="width: 100px" (click)="reset()" >reset</button>
           </div>
         </div>

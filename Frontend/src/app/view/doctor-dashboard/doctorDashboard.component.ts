@@ -17,7 +17,6 @@ export class DoctorDashboardComponent implements OnInit
 
   mouthList:string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   dayList:number[] = [31,28,31,30,31,30,31,31,30,31,30,31];
-
   year:number = -1;
   mouth:string = "";
   mouthIndex:number = -1;
@@ -178,6 +177,8 @@ export class DoctorDashboardComponent implements OnInit
             }
         )
   }
+
+
   setSecondPointerPosition()
   {
     let dom:any = document.querySelector('.second-pointer');

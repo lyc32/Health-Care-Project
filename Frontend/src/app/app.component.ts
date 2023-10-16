@@ -11,16 +11,13 @@ import {Message} from "./model/message";
 export class AppComponent {
   title = 'Health-Care-Center';
   user:Account = new Account();
-  msgNumber:number = 0;
 
-  constructor(private doctorService:AccountService)
+  constructor(private accountService:AccountService)
   {
     if(window.sessionStorage.getItem('healthCenterUser') != null)
     {
       // @ts-ignore
       this.user    = JSON.parse( window.sessionStorage.getItem('healthCenterUser') );
-      // @ts-ignore
-      this.msgNumber = JSON.parse( window.sessionStorage.getItem('healthCenterUserMessage') ).length;
       if(this.user.type != "PERSON")
       {
         this.title = this.user.type.toLowerCase();
@@ -33,8 +30,16 @@ export class AppComponent {
   }
   logOut()
   {
-    window.sessionStorage.removeItem('healthCenterUser');
-    window.location.href = "message/logOutSuccessful";
+    this.accountService.logout(this.user.emailId, this.user.password).subscribe(
+        data=>
+        {
+          if(data == 'success')
+          {
+            window.sessionStorage.removeItem('healthCenterUser');
+            window.location.href = "message/logOutSuccessful";
+          }
+        }
+    )
   }
 
 }

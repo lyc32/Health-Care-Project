@@ -67,7 +67,7 @@ body {font-family: Verdana,sans-serif;}
   color: white !important
 }
 
-/* 添加不同尺寸屏幕的样式 */
+/* For Different Screen Size */
 @media screen and (max-width:720px) {
   .weekdays li, .days li {width: 13.1%;}
 }

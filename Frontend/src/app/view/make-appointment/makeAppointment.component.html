@@ -46,26 +46,27 @@
     <div class="card"  style="min-height: 600px">
       <h3 class="card-title text-center pt-3">Step2: Choose Your Doctor</h3>
       <hr class="text-secondary">
-      <div class="row g-3">
-        <div>
-          <div class="d-flex justify-content-center"  style="overflow:auto">
-            <div class="doctor-card" style="min-width: 300px" *ngFor="let doctor of doctorList" (click)="chooseDoctor(doctor)">
-              <img src="{{doctor.photo}}" style="width:215px; height:215px">
+      <div class="row g-3 mt-2">
+        <div class="container-fluid"  style="width:450px; height:395px; overflow:auto">
+          <div class="d-flex" >
+            <div class="doctor-card ms-4" style="min-width:300px;" *ngFor="let doctor of doctorList" (click)="chooseDoctor(doctor)">
+              <img class="mt-2" src="{{doctor.photo}}" style="width:215px; height:215px">
               <h3>{{ doctor.firstName + ' ' + doctor.lastName}}</h3>
               <p>Phone: {{ doctor.phone }}</p>
               <p>E-mail: {{ doctor.emailId }}</p>
               <button (click)="seeDoctorProfile(doctor)" >See Detail</button>
             </div>
           </div>
-          <div class="col-sm-12 text-center" *ngIf="appointment.doctor_name!=''">
-            <h6>You Choose: Dr.{{appointment.doctor_name}}</h6>
-          </div>
-          <div class="col-sm-12 text-center" *ngIf="appointment.doctor_name==''" id="selectDoctorError">
-            <h6>Please Choose Your Doctor</h6>
-          </div>
+        </div>
+
+        <div class="col-sm-12 text-center" *ngIf="appointment.doctor_name!=''">
+          <h6>You Choose: Dr.{{appointment.doctor_name}}</h6>
+        </div>
+        <div class="col-sm-12 text-center" *ngIf="appointment.doctor_name==''" id="selectDoctorError">
+          <h6>Please Choose Your Doctor</h6>
         </div>
       </div>
-      <div class="row pt-4">
+      <div class="row pt-3">
         <div class="col-sm-11 text-end">
           <button class="btn btn-primary mb-3 btn-lg py-1 px-5 ms-4" (click)="toStep3()">Next-></button>
         </div>

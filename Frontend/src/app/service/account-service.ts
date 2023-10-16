@@ -28,6 +28,19 @@ export class AccountService
     return this.httpClient.post<Account>(this.baseURL +'/login', params);
   }
 
+  logout(email:string, password:string):Observable<any>
+  {
+    const info = {
+      email: email,
+      password: password
+    }
+    const params = new HttpParams({
+      fromObject: info
+    });
+    // @ts-ignore
+    return this.httpClient.post<any>(this.baseURL +'/logout', params, {responseType: 'text'});
+  }
+
   signPerson(account:Account):Observable<Account>
   {
     const httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
@@ -38,8 +51,9 @@ export class AccountService
       phone: account.phone,
       emailId: account.emailId,
       password: account.password,
-      details: btoa(JSON.stringify(new Array())),
-      type: "PERSON"
+      type: account.type,
+      subtype:account.subtype,
+      details: btoa(JSON.stringify(new Array()))
     }
     // @ts-ignore
     return this.httpClient.post<string>(this.baseURL, JSON.stringify(info), {headers: httpHeaders});
@@ -66,6 +80,16 @@ export class AccountService
       phone: phone
     }
     return this.httpClient.put<Account>(this.baseURL + "/" + id, JSON.stringify(info), {headers: httpHeaders });
+  }
+
+  updateSubtype(id:number, subtype:string):Observable<Account>
+  {
+    const httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    const info = {
+      id: id,
+      subtype: subtype
+    }
+    return this.httpClient.put<Account>( this.baseURL + "/" + id, JSON.stringify(info), {headers: httpHeaders });
   }
 
   updateEmail(id:number, email:string):Observable<Account>
@@ -100,6 +124,11 @@ export class AccountService
   getDoctors():Observable<Account[]>
   {
     return this.httpClient.get<Account[]>(`${this.baseURL}` + '/doctors');
+  }
+
+  getOnlineDoctors():Observable<Account[]>
+  {
+    return this.httpClient.get<Account[]>(`${this.baseURL}` + '/doctors/online');
   }
 
   getDoctorsBySubtype(subtype: string):Observable<Account[]>

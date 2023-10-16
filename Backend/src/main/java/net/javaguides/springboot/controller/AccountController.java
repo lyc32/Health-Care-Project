@@ -71,8 +71,6 @@ public class AccountController
 	public ResponseEntity<Account> updateaccount(@PathVariable Long id, @RequestBody Account accountDetails){
 		Account account = accountRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("account not exist with id :" + id));
-
-		System.out.println(accountDetails);
 		//account.setFirstName(accountDetails.getFirstName());
 		//account.setLastName(accountDetails.getLastName());
 		//account.setEmailId(accountDetails.getEmailId());
@@ -95,47 +93,37 @@ public class AccountController
 	@PostMapping("/accounts/login")
 	public ResponseEntity<Account> login(String email, String password)
 	{
-		System.out.println(email + " " + password);
 		List<Account> accountList = accountRepository.findByEmailIdAndPassword(email,password);
-		System.out.println(accountList.size());
 		if(accountList.size() != 1)
 		{
 			return ResponseEntity.ok(null);
 		}
 		else
 		{
-			memoryDB.onlineAccount++;
 			if(accountList.get(0).getType().equals("DOCTOR"))
 			{
-				memoryDB.onlineDoctor++;
-			}
-			if(accountList.get(0).getType().equals("ADMIN"))
-			{
-				memoryDB.onlineAdmin++;
+				memoryDB.onlineDoctorList.add(accountList.get(0));
 			}
 			return ResponseEntity.ok(accountList.get(0));
 		}
 	}
 
-	@GetMapping("/accounts/logout")
+	@PostMapping("/accounts/logout")
 	public String logOut(String email, String password)
 	{
 		List<Account> accountList = accountRepository.findByEmailIdAndPassword(email,password);
-		System.out.println(accountList.size());
 		if(accountList.size() != 1)
 		{
 			return "failed";
 		}
 		else
 		{
-			memoryDB.onlineAccount--;
-			if(accountList.get(0).getType().equals("DOCTOR"))
+			for (Account a: memoryDB.onlineDoctorList)
 			{
-				memoryDB.onlineDoctor--;
-			}
-			if(accountList.get(0).getType().equals("ADMIN"))
-			{
-				memoryDB.onlineAdmin--;
+				if(a.getId() == accountList.get(0).getId())
+				{
+					memoryDB.onlineDoctorList.remove(a);
+				}
 			}
 			return "success";
 		}
@@ -147,4 +135,9 @@ public class AccountController
 		return accountRepository.search(id, firstName, lastName, emailId, phone, birthday, gender, type);
 	}
 
+	@GetMapping("/accounts/doctors/online")
+	public List<Account> getOnlineAccounts()
+	{
+		return memoryDB.onlineDoctorList;
+	}
 }
