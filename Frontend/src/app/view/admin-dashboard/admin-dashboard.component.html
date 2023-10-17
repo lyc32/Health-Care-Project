@@ -1,4 +1,4 @@
-<div class="container-fluid text-center">
+<div class="container-fluid">
   <div class="row mt-4">
     <div class="col-sm-3">
       <div class="card outer-container justify-content-center">
@@ -48,7 +48,7 @@
           </li>
           <li *ngFor="let i of days" >
             <span *ngIf="i == date" class="active">{{i}}</span>
-            <span *ngIf="i != date" >{{i}}</span>
+            <span *ngIf="i != date" ><a>{{i}}</a></span>
           </li>
         </ul>
       </div>
