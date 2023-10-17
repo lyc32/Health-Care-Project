@@ -77,13 +77,19 @@ export class DoctorListComponent implements OnInit{
     {
       return false;
     }
-    if(this.filterAccount.birthday != '' && account1.birthday != this.filterAccount.birthday)
+    if(this.filterAccount.birthday != '')
     {
-      return false;
+      if(account1.birthday != null && account1.birthday != this.filterAccount.birthday)
+      {
+        return false;
+      }
     }
-    if(this.filterAccount.gender != '' && account1.gender.toUpperCase() != this.filterAccount.gender.toUpperCase())
+    if(this.filterAccount.gender != '' )
     {
-      return false;
+      if(account1.gender != null && account1.gender.toUpperCase() != this.filterAccount.gender.toUpperCase())
+      {
+        return false;
+      }
     }
     if(this.filterAccount.emailId != '' && account1.emailId.toUpperCase() != this.filterAccount.emailId.toUpperCase())
     {
